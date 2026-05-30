@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roamo — Din personlige rejseassistent</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{--sand:#F5F0E8;--ink:#1A1814;--terra:#C4622D;--terra-light:#F0E0D6;--muted:#7A7568;--brd:#E0D9CE;}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--sand);color:var(--ink);overflow-x:hidden}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 2.5rem;border-bottom:1px solid var(--brd);background:rgba(245,240,232,0.85);backdrop-filter:blur(12px);position:sticky;top:0;z-index:100}
+    .logo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--ink)}
+    .logo span{color:var(--terra)}
+    .nav-tag{font-size:0.72rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;border:1px solid var(--brd);padding:0.25rem 0.7rem;border-radius:2rem}
+    .hero{min-height:92vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4rem 2rem 2rem;position:relative;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;z-index:0}
+    .hero-bg img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.8s ease;filter:brightness(0.35)}
+    .hero-bg img.active{opacity:1}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(26,24,20,0.3) 0%,rgba(26,24,20,0.55) 100%)}
+    .hero-content{position:relative;z-index:2;animation:fadeUp 1s ease both}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+    .hero-eye{font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:1.25rem;font-weight:500;animation:fadeUp 1s 0.1s ease both}
+    .hero-title{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,7vw,5rem);font-weight:700;line-height:1.05;margin-bottom:1.25rem;color:#fff;animation:fadeUp 1s 0.2s ease both}
+    .hero-title em{font-style:italic;color:#F0A882}
+    .hero-sub{font-size:1.05rem;color:rgba(255,255,255,0.75);max-width:420px;margin:0 auto 2.5rem;line-height:1.7;font-weight:300;animation:fadeUp 1s 0.3s ease both}
+    .cta{background:var(--terra);color:#fff;border:none;padding:0.95rem 2.4rem;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:500;border-radius:3rem;cursor:pointer;transition:background 0.2s,transform 0.2s;animation:fadeUp 1s 0.4s ease both}
+    .cta:hover{background:#A8501F;transform:translateY(-2px)}
+    .dest-dots{display:flex;gap:0.5rem;justify-content:center;margin-top:2rem;position:relative;z-index:2;animation:fadeUp 1s 0.5s ease both}
+    .dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.35);cursor:pointer;transition:all 0.3s;border:none;padding:0}
+    .dot.active{background:#fff;width:18px;border-radius:3px}
+    .strip{padding:3rem 0;overflow:hidden;border-bottom:1px solid var(--brd)}
+    .strip-track{display:flex;gap:1rem;animation:scroll 30s linear infinite;width:max-content}
+    .strip-track:hover{animation-play-state:paused}
+    @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    .strip-card{flex-shrink:0;width:220px;height:140px;border-radius:0.85rem;overflow:hidden;position:relative;cursor:pointer}
+    .strip-card img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s}
+    .strip-card:hover img{transform:scale(1.06)}
+    .strip-card-label{position:absolute;bottom:0;left:0;right:0;padding:0.5rem 0.75rem;background:linear-gradient(to top,rgba(0,0,0,0.7),transparent);color:#fff;font-size:0.8rem;font-weight:500}
+    .feats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--brd);border-bottom:1px solid var(--brd)}
+    .feat{background:var(--sand);padding:2.5rem 2rem;text-align:center;transition:background 0.2s}
+    .feat:hover{background:#EDE8DF}
+    .feat-num{font-family:'Playfair Display',serif;font-size:2rem;color:var(--terra);opacity:0.25;margin-bottom:0.4rem}
+    .feat-t{font-weight:500;font-size:0.95rem;margin-bottom:0.3rem}
+    .feat-s{font-size:0.83rem;color:var(--muted);line-height:1.6;font-weight:300}
+    .reveal{opacity:0;transform:translateY(32px);transition:opacity 0.7s ease,transform 0.7s ease}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .chat-wrap{max-width:700px;margin:0 auto;padding:5rem 1.5rem 4rem}
+    .chat-label{font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--terra);margin-bottom:0.75rem;font-weight:500}
+    .chat-title{font-family:'Playfair Display',serif;font-size:2rem;margin-bottom:1.75rem;line-height:1.2}
+    .chat-box{background:#fff;border:1px solid var(--brd);border-radius:1.25rem;overflow:hidden;box-shadow:0 4px 32px rgba(0,0,0,0.06)}
+    .chat-msgs{min-height:300px;max-height:480px;overflow-y:auto;padding:1.5rem;display:flex;flex-direction:column;gap:1rem}
+    .msg{display:flex;gap:0.65rem;align-items:flex-start;animation:fadeUp 0.35s ease both}
+    .msg.user{flex-direction:row-reverse}
+    .av{width:32px;height:32px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.68rem;font-weight:500}
+    .av.ai{background:var(--terra-light);color:var(--terra)}
+    .av.user{background:var(--ink);color:#fff}
+    .bbl{max-width:78%;padding:0.8rem 1.05rem;border-radius:0.9rem;font-size:0.9rem;line-height:1.65}
+    .msg.ai .bbl{background:var(--sand);color:var(--ink)}
+    .msg.user .bbl{background:var(--terra);color:#fff}
+    .bbl.typing::after{content:'...';animation:dots 1.2s infinite}
+    @keyframes dots{0%,20%{content:'.'} 40%{content:'..'} 60%,100%{content:'...'}}
+    .booking-cards{display:flex;flex-direction:column;gap:0.5rem;margin-top:0.75rem;max-width:95%}
+    .bcard{background:#fff;border:1px solid var(--brd);border-radius:0.7rem;padding:0.65rem 0.9rem;display:flex;align-items:center;justify-content:space-between;gap:0.75rem;transition:border-color 0.2s,transform 0.2s;animation:fadeUp 0.4s ease both}
+    .bcard:hover{border-color:var(--terra);transform:translateX(3px)}
+    .bcard-left{display:flex;align-items:center;gap:0.65rem}
+    .bcard-icon{width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.68rem;font-weight:700;flex-shrink:0;color:#fff}
+    .bcard-title{font-weight:500;font-size:0.82rem;color:var(--ink)}
+    .bcard-sub{color:var(--muted);font-size:0.73rem}
+    .bcard-btn{background:var(--terra);color:#fff;border:none;padding:0.32rem 0.85rem;border-radius:2rem;font-size:0.75rem;font-weight:500;cursor:pointer;white-space:nowrap;text-decoration:none;font-family:'DM Sans',sans-serif;transition:background 0.15s}
+    .bcard-btn:hover{background:#A8501F}
+    .sugs{display:flex;flex-wrap:wrap;gap:0.4rem;padding:1rem 1.25rem;border-top:1px solid var(--brd);background:#FDFCFA}
+    .sug{background:none;border:1px solid var(--brd);padding:0.32rem 0.8rem;border-radius:2rem;font-family:'DM Sans',sans-serif;font-size:0.8rem;color:var(--muted);cursor:pointer;transition:all 0.2s}
+    .sug:hover{border-color:var(--terra);color:var(--terra);background:var(--terra-light)}
+    .inp-row{display:flex;border-top:1px solid var(--brd)}
+    .inp{flex:1;border:none;padding:1rem 1.25rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;background:#fff;color:var(--ink);outline:none;resize:none}
+    .inp::placeholder{color:var(--muted)}
+    .snd{background:var(--terra);color:#fff;border:none;padding:0 1.5rem;cursor:pointer;font-size:1.1rem;transition:background 0.15s,transform 0.1s}
+    .snd:hover{background:#A8501F}
+    .snd:active{transform:scale(0.95)}
+    .snd:disabled{background:var(--brd);cursor:not-allowed}
+    .footer{text-align:center;padding:2.5rem;font-size:0.8rem;color:var(--muted);border-top:1px solid var(--brd)}
+    @media(max-width:640px){.feats{grid-template-columns:1fr}.hero-title{font-size:2.6rem}.nav{padding:1rem 1.25rem}}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <div class="logo">Roamo<span>.</span></div>
+  <div class="nav-tag">Beta</div>
+</nav>
+<div class="hero">
+  <div class="hero-bg" id="heroBg">
+    <img src="https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=1600&q=80" alt="Santorini" class="active">
+    <img src="https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=1600&q=80" alt="Barcelona">
+    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80" alt="Natur">
+    <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1600&q=80" alt="Strand">
+    <img src="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=1600&q=80" alt="Paris">
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eye">Din personlige rejseassistent</div>
+    <h1 class="hero-title">Din næste rejse,<br><em>på 10 minutter</em></h1>
+    <p class="hero-sub">Fortæl os hvad du drømmer om. Vi bygger en komplet, skræddersyet rejseplan — gratis.</p>
+    <button class="cta" onclick="document.getElementById('chat').scrollIntoView({behavior:'smooth'})">Planlæg din rejse</button>
+  </div>
+  <div class="dest-dots" id="dots">
+    <button class="dot active" onclick="goSlide(0)"></button>
+    <button class="dot" onclick="goSlide(1)"></button>
+    <button class="dot" onclick="goSlide(2)"></button>
+    <button class="dot" onclick="goSlide(3)"></button>
+    <button class="dot" onclick="goSlide(4)"></button>
+  </div>
+</div>
+<div class="strip">
+  <div class="strip-track" id="track"></div>
+</div>
+<div class="feats">
+  <div class="feat reveal"><div class="feat-num">01</div><div class="feat-t">100% dansk</div><div class="feat-s">På dit sprog, med dansk ferie og helligdage in mente</div></div>
+  <div class="feat reveal"><div class="feat-num">02</div><div class="feat-t">Personlig</div><div class="feat-s">Tilpasset dit budget, dine interesser og din familie</div></div>
+  <div class="feat reveal"><div class="feat-num">03</div><div class="feat-t">Gratis</div><div class="feat-s">Vi tjener på hotelprovisioner — ikke dig</div></div>
+</div>
+<div class="chat-wrap reveal" id="chat">
+  <div class="chat-label">Prøv det selv</div>
+  <h2 class="chat-title">Hvad drømmer du om?</h2>
+  <div class="chat-box">
+    <div class="chat-msgs" id="msgs">
+      <div class="msg ai">
+        <div class="av ai">R</div>
+        <div class="bbl">Hej! Jeg er Roamo, din personlige rejseassistent. Fortæl mig om din drømmerejse — hvornår vil du rejse, hvor mange I er, og hvad I elsker at opleve?</div>
+      </div>
+    </div>
+    <div class="sugs" id="sugs">
+      <button class="sug" onclick="useSug(this)">Familieferie med børn</button>
+      <button class="sug" onclick="useSug(this)">Citytrip i Europa</button>
+      <button class="sug" onclick="useSug(this)">Strand og sol</button>
+      <button class="sug" onclick="useSug(this)">Eventyr og natur</button>
+    </div>
+    <div class="inp-row">
+      <textarea class="inp" id="inp" placeholder="Skriv din drøm her..." rows="1" onkeydown="handleKey(event)"></textarea>
+      <button class="snd" id="snd" onclick="send()">↑</button>
+    </div>
+  </div>
+</div>
+<div class="footer">© 2026 Roamo · roamo.dk · Alle rettigheder forbeholdes</div>
+<script>
+const imgs=document.querySelectorAll('.hero-bg img');
+const dots=document.querySelectorAll('.dot');
+let cur=0,timer;
+function goSlide(n){imgs[cur].classList.remove('active');dots[cur].classList.remove('active');cur=n;imgs[cur].classList.add('active');dots[cur].classList.add('active');clearInterval(timer);timer=setInterval(()=>goSlide((cur+1)%imgs.length),5000);}
+timer=setInterval(()=>goSlide((cur+1)%imgs.length),5000);
+const destinations=[
+  {name:'Santorini',img:'https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=400&q=80'},
+  {name:'Barcelona',img:'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=400&q=80'},
+  {name:'Bali',img:'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=400&q=80'},
+  {name:'Paris',img:'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=400&q=80'},
+  {name:'Marokko',img:'https://images.unsplash.com/photo-1539020140153-e479b8c22e70?w=400&q=80'},
+  {name:'Thailand',img:'https://images.unsplash.com/photo-1506665531195-3566af2b4dfa?w=400&q=80'},
+  {name:'Island',img:'https://images.unsplash.com/photo-1504829857797-ddff29c27927?w=400&q=80'},
+  {name:'Kroatien',img:'https://images.unsplash.com/photo-1555990793-da11153b2473?w=400&q=80'},
+];
+const track=document.getElementById('track');
+[...destinations,...destinations].forEach(d=>{const card=document.createElement('div');card.className='strip-card';card.innerHTML='<img src="'+d.img+'" alt="'+d.name+'" loading="lazy"><div class="strip-card-label">'+d.name+'</div>';card.onclick=()=>{document.getElementById('inp').value='Jeg drømmer om at rejse til '+d.name;document.getElementById('chat').scrollIntoView({behavior:'smooth'});};track.appendChild(card);});
+const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.15});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+const msgsEl=document.getElementById('msgs');
+const inpEl=document.getElementById('inp');
+const sndBtn=document.getElementById('snd');
+let history=[];
+function useSug(btn){inpEl.value=btn.textContent;document.getElementById('sugs').style.display='none';send();}
+function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}}
+function addUserMsg(text){const wrap=document.createElement('div');wrap.className='msg user';const av=document.createElement('div');av.className='av user';av.textContent='D';const bbl=document.createElement('div');bbl.className='bbl';bbl.textContent=text;wrap.appendChild(av);wrap.appendChild(bbl);msgsEl.appendChild(wrap);msgsEl.scrollTop=msgsEl.scrollHeight;}
+function buildCards(dest){const d=encodeURIComponent(dest);const items=[{bg:'#003580',l:'B',title:'Booking.com',sub:'Find hotel i '+dest,url:'https://www.booking.com/search.html?ss='+d,btn:'Se hoteller'},{bg:'#0770e3',l:'S',title:'Skyscanner',sub:'Fly til '+dest,url:'https://www.skyscanner.dk/transport/flyvninger/dk/'+d+'/',btn:'Find fly'},{bg:'#FF5A33',l:'G',title:'GetYourGuide',sub:'Oplevelser i '+dest,url:'https://www.getyourguide.dk/s/?q='+d,btn:'Se oplevelser'},{bg:'#00A67E',l:'G',title:'Gouda Forsikring',sub:'Tryg på hele rejsen',url:'https://www.gouda.dk',btn:'Få tilbud'}];const container=document.createElement('div');container.className='booking-cards';items.forEach((c,i)=>{const card=document.createElement('div');card.className='bcard';card.style.animationDelay=(i*0.08)+'s';const left=document.createElement('div');left.className='bcard-left';const icon=document.createElement('div');icon.className='bcard-icon';icon.style.background=c.bg;icon.textContent=c.l;const txt=document.createElement('div');txt.innerHTML='<div class="bcard-title">'+c.title+'</div><div class="bcard-sub">'+c.sub+'</div>';left.appendChild(icon);left.appendChild(txt);const btn=document.createElement('a');btn.className='bcard-btn';btn.href=c.url;btn.target='_blank';btn.rel='noopener noreferrer';btn.textContent=c.btn;card.appendChild(left);card.appendChild(btn);container.appendChild(card);});return container;}
+function extractDest(text){const m=text.match(/\b(Kreta|Mallorca|Barcelona|Paris|Rom|London|Amsterdam|Lissabon|Lisboa|Tenerife|Gran Canaria|Fuerteventura|Ibiza|Kroatien|Grækenland|Italien|Spanien|Portugal|Frankrig|Thailand|Bali|Dubai|New York|Tokyo|Prag|Wien|Budapest|Berlin|Marrakesh|Marokko|Tyrkiet|Antalya|Istanbul|Malta|Cypern|Sicilien|Sardinien|Montenegro|Schweiz|Østrig|Norge|Sverige|Finland|Island|Santorini)\b/i);return m?m[1]:null;}
+async function send(){const text=inpEl.value.trim();if(!text)return;document.getElementById('sugs').style.display='none';inpEl.value='';sndBtn.disabled=true;addUserMsg(text);history.push({role:'user',content:text});const wrap=document.createElement('div');wrap.className='msg ai';const av=document.createElement('div');av.className='av ai';av.textContent='R';const bbl=document.createElement('div');bbl.className='bbl typing';bbl.textContent='Tænker';wrap.appendChild(av);wrap.appendChild(bbl);msgsEl.appendChild(wrap);msgsEl.scrollTop=msgsEl.scrollHeight;try{const res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:history})});const data=await res.json();const reply=data.reply||'Noget gik galt — prøv igen.';bbl.textContent=reply;bbl.classList.remove('typing');history.push({role:'assistant',content:reply});const dest=extractDest(reply);if(dest){wrap.appendChild(buildCards(dest));}}catch(e){bbl.textContent='Noget gik galt — prøv igen.';bbl.classList.remove('typing');}sndBtn.disabled=false;msgsEl.scrollTop=msgsEl.scrollHeight;}
+</script>
+</body>
+</html>
