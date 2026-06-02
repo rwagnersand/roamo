@@ -314,7 +314,7 @@ async function send(){
   const wrap=document.createElement('div');wrap.className='msg ai';const av=document.createElement('div');av.className='av ai';av.textContent='R';const bbl=document.createElement('div');bbl.className='bbl typing';bbl.textContent='Finder hoteller og fly';wrap.appendChild(av);wrap.appendChild(bbl);msgsEl.appendChild(wrap);msgsEl.scrollTop=msgsEl.scrollHeight;
   try{
     const r1=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:history,mode:'chat'})});
-    const d1=await r1.json();const reply=d1.reply||'';bbl.textContent=reply;bbl.classList.remove('typing');history.push({role:'assistant',content:reply});
+    const d1=await r1.json();const reply=d1.reply||'';bbl.innerHTML=reply.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/^- (.+)$/gm,'<li>$1</li>').replace(/(<li>.*<\/li>)/s,'<ul style="padding-left:1.2rem;margin:0.5rem 0">$1</ul>');bbl.classList.remove('typing');history.push({role:'assistant',content:reply});
     const rw=document.createElement('div');rw.className='msg ai';const ra=document.createElement('div');ra.className='av ai';ra.textContent='R';const rb=document.createElement('div');rb.className='bbl typing';rb.textContent='Søger hoteller og fly';rw.appendChild(ra);rw.appendChild(rb);msgsEl.appendChild(rw);msgsEl.scrollTop=msgsEl.scrollHeight;
     const r2=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:'Find hoteller og fly til: '+text}],mode:'recommend'})});
     const d2=await r2.json();
