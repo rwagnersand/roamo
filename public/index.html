@@ -386,8 +386,7 @@ const foundDest=destDetect2?destDetect2[1]:'destination ukendt';
 const r2=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:'destination'}],mode:'recommend',destination:foundDest})});
       const d2=await r2.json();
       if(d2.type==='recommendations'&&d2.data){rb.remove();rw.appendChild(buildRecs(d2.data));}
-      else{rb.remove();}
-    }
+else{rb.textContent='Kunne ikke hente anbefalinger — prøv igen.';rb.classList.remove('typing');}    }
   }catch(e){bbl.textContent='Noget gik galt — prøv igen.';bbl.classList.remove('typing');}
   sndBtn.disabled=false;msgsEl.scrollTop=msgsEl.scrollHeight;
 }
