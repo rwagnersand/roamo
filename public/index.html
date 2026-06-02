@@ -32,15 +32,13 @@
     .hero-right img.active{opacity:1}
     .proof-bar{background:var(--sand);padding:1.25rem 2.5rem;display:flex;align-items:center;justify-content:center;gap:3rem;border-bottom:1px solid var(--brd);flex-wrap:wrap}
     .proof-item{display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;color:var(--muted)}
-
-    /* CHAT SECTION */
     .chat-section{background:var(--sand);padding:5rem 2rem}
     .chat-inner{max-width:780px;margin:0 auto}
     .section-eye{font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--terra);margin-bottom:0.75rem;font-weight:500}
     .section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.6rem);font-weight:700;margin-bottom:0.75rem;line-height:1.15}
     .section-sub{font-size:1rem;color:var(--muted);line-height:1.7;font-weight:300;margin-bottom:2rem}
     .chat-box{background:#fff;border:1px solid var(--brd);border-radius:1.25rem;overflow:hidden;box-shadow:0 4px 32px rgba(0,0,0,0.06)}
-    .chat-msgs{min-height:300px;max-height:560px;overflow-y:auto;padding:1.5rem;display:flex;flex-direction:column;gap:1rem}
+    .chat-msgs{min-height:300px;max-height:600px;overflow-y:auto;padding:1.5rem;display:flex;flex-direction:column;gap:1rem}
     .msg{display:flex;gap:0.65rem;align-items:flex-start;animation:fadeUp 0.35s ease both}
     @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
     .msg.user{flex-direction:row-reverse}
@@ -52,45 +50,36 @@
     .msg.user .bbl{background:var(--terra);color:#fff}
     .bbl.typing::after{content:'...';animation:dots 1.2s infinite}
     @keyframes dots{0%,20%{content:'.'} 40%{content:'..'} 60%,100%{content:'...'}}
-
-    /* RECOMMENDATION CARDS */
-    .rec-cards{display:flex;flex-direction:column;gap:0.75rem;margin-top:0.75rem;max-width:95%}
-    .rec-section-title{font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:0.25rem;margin-top:0.25rem}
-
-    /* HOTEL CARD */
+    .rec-cards{display:flex;flex-direction:column;gap:0.6rem;margin-top:0.75rem;max-width:95%}
+    .rec-label{font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);font-weight:500;margin:0.5rem 0 0.2rem}
     .hotel-card{background:#fff;border:1px solid var(--brd);border-radius:0.85rem;overflow:hidden;transition:border-color 0.2s,transform 0.2s;animation:fadeUp 0.4s ease both}
     .hotel-card:hover{border-color:var(--terra);transform:translateX(3px)}
-    .hotel-card-inner{display:flex;gap:0}
-    .hotel-img{width:90px;height:80px;object-fit:cover;flex-shrink:0}
-    .hotel-body{padding:0.65rem 0.85rem;flex:1;display:flex;flex-direction:column;justify-content:space-between}
-    .hotel-top{display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem}
-    .hotel-name{font-weight:600;font-size:0.82rem;color:var(--ink)}
-    .hotel-stars{color:#F5A623;font-size:0.7rem;letter-spacing:0.05em}
+    .hotel-inner{display:flex}
+    .hotel-img{width:88px;height:78px;object-fit:cover;flex-shrink:0;background:var(--sand)}
+    .hotel-body{padding:0.6rem 0.85rem;flex:1;display:flex;flex-direction:column;justify-content:space-between}
+    .hotel-top{display:flex;justify-content:space-between;align-items:flex-start}
+    .hotel-name{font-weight:600;font-size:0.82rem;color:var(--ink);line-height:1.3}
+    .hotel-stars{color:#F5A623;font-size:0.65rem;flex-shrink:0;margin-left:0.4rem}
     .hotel-desc{font-size:0.75rem;color:var(--muted);line-height:1.4;margin:0.2rem 0}
-    .hotel-footer{display:flex;align-items:center;justify-content:space-between;margin-top:0.3rem}
+    .hotel-footer{display:flex;align-items:center;justify-content:space-between}
     .hotel-price{font-size:0.78rem;color:var(--green);font-weight:600}
-    .hotel-btn{background:var(--terra);color:#fff;border:none;padding:0.25rem 0.75rem;border-radius:2rem;font-size:0.72rem;font-weight:500;cursor:pointer;text-decoration:none;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:background 0.15s}
+    .hotel-btn{background:var(--terra);color:#fff;border:none;padding:0.22rem 0.7rem;border-radius:2rem;font-size:0.7rem;font-weight:500;cursor:pointer;text-decoration:none;font-family:'DM Sans',sans-serif;white-space:nowrap}
     .hotel-btn:hover{background:#A8501F}
-
-    /* FLIGHT CARD */
-    .flight-card{background:#fff;border:1px solid var(--brd);border-radius:0.85rem;padding:0.75rem 1rem;transition:border-color 0.2s,transform 0.2s;animation:fadeUp 0.4s ease both}
+    .flight-card{background:#fff;border:1px solid var(--brd);border-radius:0.85rem;padding:0.7rem 1rem;transition:border-color 0.2s,transform 0.2s;animation:fadeUp 0.4s ease both}
     .flight-card:hover{border-color:#0770e3;transform:translateX(3px)}
     .flight-row{display:flex;align-items:center;justify-content:space-between;gap:0.5rem}
-    .flight-from,.flight-to{text-align:center}
-    .flight-code{font-size:1.1rem;font-weight:700;color:var(--ink)}
-    .flight-city{font-size:0.7rem;color:var(--muted)}
-    .flight-middle{flex:1;display:flex;flex-direction:column;align-items:center;gap:0.15rem}
-    .flight-line{display:flex;align-items:center;gap:0.25rem;width:100%}
-    .flight-dot{width:6px;height:6px;border-radius:50%;background:var(--muted);flex-shrink:0}
+    .flight-code{font-size:1rem;font-weight:700;color:var(--ink)}
+    .flight-city{font-size:0.68rem;color:var(--muted)}
+    .flight-mid{flex:1;display:flex;flex-direction:column;align-items:center;gap:0.1rem}
+    .flight-line{display:flex;align-items:center;gap:0.2rem;width:100%}
+    .flight-dot{width:5px;height:5px;border-radius:50%;background:var(--brd);flex-shrink:0}
     .flight-dash{flex:1;height:1px;background:var(--brd)}
-    .flight-plane{font-size:0.85rem}
-    .flight-duration{font-size:0.7rem;color:var(--muted)}
-    .flight-footer{display:flex;align-items:center;justify-content:space-between;margin-top:0.6rem;padding-top:0.6rem;border-top:1px solid var(--brd)}
-    .flight-airline{font-size:0.75rem;color:var(--muted)}
-    .flight-price{font-size:0.82rem;color:var(--green);font-weight:600}
-    .flight-btn{background:#0770e3;color:#fff;border:none;padding:0.25rem 0.75rem;border-radius:2rem;font-size:0.72rem;font-weight:500;cursor:pointer;text-decoration:none;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:background 0.15s}
+    .flight-dur{font-size:0.68rem;color:var(--muted)}
+    .flight-foot{display:flex;align-items:center;justify-content:space-between;margin-top:0.5rem;padding-top:0.5rem;border-top:1px solid var(--brd)}
+    .flight-airline{font-size:0.73rem;color:var(--muted)}
+    .flight-price{font-size:0.78rem;color:var(--green);font-weight:600}
+    .flight-btn{background:#0770e3;color:#fff;border:none;padding:0.22rem 0.7rem;border-radius:2rem;font-size:0.7rem;font-weight:500;cursor:pointer;text-decoration:none;font-family:'DM Sans',sans-serif;white-space:nowrap}
     .flight-btn:hover{background:#055ab8}
-
     .sugs{display:flex;flex-wrap:wrap;gap:0.4rem;padding:1rem 1.25rem;border-top:1px solid var(--brd);background:#FDFCFA}
     .sug{background:none;border:1px solid var(--brd);padding:0.32rem 0.8rem;border-radius:2rem;font-family:'DM Sans',sans-serif;font-size:0.8rem;color:var(--muted);cursor:pointer;transition:all 0.2s}
     .sug:hover{border-color:var(--terra);color:var(--terra);background:var(--terra-light)}
@@ -100,8 +89,6 @@
     .snd{background:var(--terra);color:#fff;border:none;padding:0 1.5rem;cursor:pointer;font-size:1.1rem;transition:background 0.15s}
     .snd:hover{background:#A8501F}
     .snd:disabled{background:var(--brd);cursor:not-allowed}
-
-    /* REST */
     .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.65s ease,transform 0.65s ease}
     .reveal.visible{opacity:1;transform:translateY(0)}
     .final-cta{background:var(--ink);color:#fff;padding:5rem 2.5rem;text-align:center}
@@ -115,253 +102,14 @@
   </style>
 </head>
 <body>
-
 <nav class="nav">
   <div class="logo">Roamo<span>.</span></div>
   <button class="nav-cta" onclick="document.getElementById('chat').scrollIntoView({behavior:'smooth'})">Planlæg min rejse</button>
 </nav>
-
 <section class="hero">
   <div class="hero-left">
     <div class="hero-badge">★ Brugt af 2.400+ danskere</div>
     <h1 class="hero-title">Planlæg din drømmerejse<br><em>på 10 minutter</em></h1>
-    <p class="hero-sub">Fortæl Roamo hvad du drømmer om. Vores AI finder hoteller og fly til dig — med direkte booking klar.</p>
+    <p class="hero-sub">Fortæl Roamo hvad du drømmer om. Vores AI finder hoteller og fly til dig — til alle destinationer i verden.</p>
     <button class="hero-cta" onclick="document.getElementById('chat').scrollIntoView({behavior:'smooth'})">Planlæg min rejse gratis →</button>
-    <p class="hero-cta-sub">✓ Helt gratis &nbsp;·&nbsp; ✓ Ingen oprettelse &nbsp;·&nbsp; ✓ Klar på 10 min</p>
-    <div class="hero-stats">
-      <div><div class="stat-num">2.400+</div><div class="stat-label">Tilfredse rejsende</div></div>
-      <div><div class="stat-num">4.8★</div><div class="stat-label">Gennemsnitlig rating</div></div>
-      <div><div class="stat-num">10 min</div><div class="stat-label">Til din rejseplan</div></div>
-    </div>
-  </div>
-  <div class="hero-right">
-    <img src="https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=1200&q=80" alt="Santorini" class="active">
-    <img src="https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=1200&q=80" alt="Barcelona">
-    <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1200&q=80" alt="Bali">
-  </div>
-</section>
-
-<div class="proof-bar">
-  <div class="proof-item">🏨 Booking.com partner</div>
-  <div class="proof-item">✈️ Skyscanner partner</div>
-  <div class="proof-item">🎟️ GetYourGuide partner</div>
-  <div class="proof-item">🛡️ GDPR-sikret</div>
-</div>
-
-<!-- CHAT -->
-<div class="chat-section" id="chat">
-  <div class="chat-inner reveal">
-    <div class="section-eye">Prøv det selv</div>
-    <h2 class="section-title">Find hoteller og fly i chatten</h2>
-    <p class="section-sub">Fortæl Roamo om din rejse — så finder AI'en konkrete hoteller og fly direkte i samtalen.</p>
-    <div class="chat-box">
-      <div class="chat-msgs" id="msgs">
-        <div class="msg ai">
-          <div class="av ai">R</div>
-          <div class="bbl">Hej! Jeg er Roamo 👋 Fortæl mig om din drømmerejse — hvornår vil du rejse, hvor mange I er, og hvad I elsker? Så finder jeg konkrete hoteller og fly til dig!</div>
-        </div>
-      </div>
-      <div class="sugs" id="sugs">
-        <button class="sug" onclick="useSug(this)">Familie på 4 til Kreta i juli</button>
-        <button class="sug" onclick="useSug(this)">Citytrip til Barcelona i september</button>
-        <button class="sug" onclick="useSug(this)">Romantisk tur til Paris i oktober</button>
-        <button class="sug" onclick="useSug(this)">Strand i Mallorca i august</button>
-      </div>
-      <div class="inp-row">
-        <textarea class="inp" id="inp" placeholder="Skriv din drøm her..." rows="1" onkeydown="handleKey(event)"></textarea>
-        <button class="snd" id="snd" onclick="send()">↑</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="final-cta">
-  <h2 class="final-cta-title">Klar til din næste<br><em>drømmerejse?</em></h2>
-  <p class="final-cta-sub">10 minutter er alt hvad det tager. Roamo finder hoteller og fly til dig — helt gratis.</p>
-  <button class="final-cta-btn" onclick="document.getElementById('chat').scrollIntoView({behavior:'smooth'})">Find min rejse nu →</button>
-</div>
-
-<footer class="footer">
-  <div style="font-family:'Playfair Display',serif;font-size:1.1rem">Roamo<span style="color:var(--terra)">.</span></div>
-  <div>© 2026 Roamo · roamo.dk</div>
-  <div style="display:flex;gap:1rem"><a href="#" style="color:var(--muted);text-decoration:none">Privatlivspolitik</a><a href="#" style="color:var(--muted);text-decoration:none">Kontakt</a></div>
-</footer>
-
-<script>
-// Hero slideshow
-const imgs=document.querySelectorAll('.hero-right img');
-let cur=0;
-setInterval(()=>{imgs[cur].classList.remove('active');cur=(cur+1)%imgs.length;imgs[cur].classList.add('active');},5000);
-
-// Reveal
-const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.1});
-document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
-
-// Hotel data per destination
-const hotelData={
-  'Kreta':[
-    {name:'Creta Maris Beach Resort',stars:'★★★★★',desc:'Direkte ved stranden i Hersonissos. Pool, spa og halvpension.',price:'Fra 1.245 kr/nat',img:'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=200&q=70'},
-    {name:'Minoas Palace Resort',stars:'★★★★',desc:'Familievenligt hotel i Bali, Kreta. Fantastisk udsigt over havet.',price:'Fra 890 kr/nat',img:'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=200&q=70'},
-  ],
-  'Barcelona':[
-    {name:'Hotel Arts Barcelona',stars:'★★★★★',desc:'Ikonisk tårnhotel ved stranden med udsigt over hele Barcelona.',price:'Fra 2.100 kr/nat',img:'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=200&q=70'},
-    {name:'Praktik Rambla',stars:'★★★★',desc:'Centralt på La Rambla. Moderne design og rooftop pool.',price:'Fra 1.050 kr/nat',img:'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=200&q=70'},
-  ],
-  'Paris':[
-    {name:'Hôtel Le Marais',stars:'★★★★',desc:'Charmerende boutique hotel i hjertet af Le Marais-kvarteret.',price:'Fra 1.400 kr/nat',img:'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=200&q=70'},
-    {name:'Citadines Saint-Germain',stars:'★★★★',desc:'Stilfuldt apartmenthotel på venstre bred. 10 min fra Eiffeltårnet.',price:'Fra 1.150 kr/nat',img:'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=200&q=70'},
-  ],
-  'Mallorca':[
-    {name:'Valparaiso Palace',stars:'★★★★★',desc:'Luksuriøst paladshotel over Palma med fantastisk pool og udsigt.',price:'Fra 1.800 kr/nat',img:'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=200&q=70'},
-    {name:'Hotel Rural Sa Bassa Rotja',stars:'★★★★',desc:'Romantisk landhotel i olivenlunde. Perfekt til par.',price:'Fra 1.200 kr/nat',img:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=200&q=70'},
-  ],
-  'Bali':[
-    {name:'Four Seasons Jimbaran Bay',stars:'★★★★★',desc:'Villaer med privat pool direkte over Jimbaran Bugten.',price:'Fra 3.200 kr/nat',img:'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=200&q=70'},
-    {name:'Alaya Resort Ubud',stars:'★★★★',desc:'Fredfyldt resort omgivet af risterrasser i kulturelle Ubud.',price:'Fra 1.600 kr/nat',img:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=200&q=70'},
-  ],
-};
-
-const flightData={
-  'Kreta':[
-    {from:'CPH',fromCity:'København',to:'HER',toCity:'Heraklion',duration:'3t 20m',airline:'SAS / Norwegian',price:'Fra 1.450 kr t/r'},
-    {from:'CPH',fromCity:'København',to:'CHQ',toCity:'Chania',duration:'3t 35m',airline:'Norwegian',price:'Fra 1.680 kr t/r'},
-  ],
-  'Barcelona':[
-    {from:'CPH',fromCity:'København',to:'BCN',toCity:'Barcelona',duration:'2t 45m',airline:'SAS / Vueling',price:'Fra 1.200 kr t/r'},
-  ],
-  'Paris':[
-    {from:'CPH',fromCity:'København',to:'CDG',toCity:'Paris CDG',duration:'2t 10m',airline:'Air France / SAS',price:'Fra 1.100 kr t/r'},
-  ],
-  'Mallorca':[
-    {from:'CPH',fromCity:'København',to:'PMI',toCity:'Palma',duration:'2t 50m',airline:'Norwegian / TUI',price:'Fra 1.350 kr t/r'},
-  ],
-  'Bali':[
-    {from:'CPH',fromCity:'København',to:'DPS',toCity:'Denpasar',duration:'16t 30m',airline:'KLM via Amsterdam',price:'Fra 5.800 kr t/r'},
-  ],
-};
-
-function getDefaultHotels(dest){
-  return hotelData[dest]||[{name:'Hoteller i '+dest,stars:'★★★★',desc:'Se de bedste hoteller og sammenlign priser på Booking.com.',price:'Se priser',img:'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=200&q=70'}];
-}
-function getDefaultFlights(dest){
-  return flightData[dest]||[{from:'CPH',fromCity:'København',to:dest.substring(0,3).toUpperCase(),toCity:dest,duration:'Varierer',airline:'Flere flyselskaber',price:'Se priser'}];
-}
-
-function buildHotelCard(h,dest,delay){
-  const d=encodeURIComponent(dest);
-  const card=document.createElement('div');card.className='hotel-card';card.style.animationDelay=delay+'s';
-  card.innerHTML=`
-    <div class="hotel-card-inner">
-      <img class="hotel-img" src="${h.img}" alt="${h.name}">
-      <div class="hotel-body">
-        <div>
-          <div class="hotel-top"><div class="hotel-name">${h.name}</div><div class="hotel-stars">${h.stars}</div></div>
-          <div class="hotel-desc">${h.desc}</div>
-        </div>
-        <div class="hotel-footer">
-          <div class="hotel-price">${h.price}</div>
-          <a class="hotel-btn" href="https://www.booking.com/search.html?ss=${d}+${encodeURIComponent(h.name)}" target="_blank" rel="noopener">Se hotel →</a>
-        </div>
-      </div>
-    </div>`;
-  return card;
-}
-
-function buildFlightCard(f,dest,delay){
-  const card=document.createElement('div');card.className='flight-card';card.style.animationDelay=delay+'s';
-  const url=`https://www.skyscanner.dk/transport/flyvninger/cph/${encodeURIComponent(dest.substring(0,3).toLowerCase())}/`;
-  card.innerHTML=`
-    <div class="flight-row">
-      <div class="flight-from"><div class="flight-code">${f.from}</div><div class="flight-city">${f.fromCity}</div></div>
-      <div class="flight-middle">
-        <div class="flight-line"><div class="flight-dot"></div><div class="flight-dash"></div><span class="flight-plane">✈</span><div class="flight-dash"></div><div class="flight-dot"></div></div>
-        <div class="flight-duration">${f.duration}</div>
-      </div>
-      <div class="flight-to"><div class="flight-code">${f.to}</div><div class="flight-city">${f.toCity}</div></div>
-    </div>
-    <div class="flight-footer">
-      <div class="flight-airline">${f.airline}</div>
-      <div class="flight-price">${f.price}</div>
-      <a class="flight-btn" href="${url}" target="_blank" rel="noopener">Book fly →</a>
-    </div>`;
-  return card;
-}
-
-function buildRecommendations(dest){
-  const container=document.createElement('div');container.className='rec-cards';
-  const ht=document.createElement('div');ht.className='rec-section-title';ht.textContent='🏨 Anbefalede hoteller i '+dest;
-  container.appendChild(ht);
-  getDefaultHotels(dest).forEach((h,i)=>container.appendChild(buildHotelCard(h,dest,i*0.1)));
-  const ft=document.createElement('div');ft.className='rec-section-title';ft.style.marginTop='0.5rem';ft.textContent='✈️ Fly fra København til '+dest;
-  container.appendChild(ft);
-  getDefaultFlights(dest).forEach((f,i)=>container.appendChild(buildFlightCard(f,dest,i*0.1)));
-  return container;
-}
-
-function extractDest(text){
-  const m=text.match(/\b(Kreta|Mallorca|Barcelona|Paris|Rom|London|Amsterdam|Lissabon|Tenerife|Gran Canaria|Ibiza|Kroatien|Thailand|Bali|Dubai|New York|Tokyo|Prag|Wien|Budapest|Berlin|Marokko|Tyrkiet|Antalya|Istanbul|Malta|Cypern|Sicilien|Island|Santorini)\b/i);
-  return m?m[1]:null;
-}
-
-// CHAT
-const msgsEl=document.getElementById('msgs');
-const inpEl=document.getElementById('inp');
-const sndBtn=document.getElementById('snd');
-let history=[];
-let turn=0;
-
-const demoResponses=[
-  {text:"Super! Lad mig finde de bedste muligheder til dig. Hvad er dit omtrentlige budget per person, og foretrækker I strandhotel eller mere kulturelle omgivelser?",dest:null},
-  {text:"Perfekt — her er mine anbefalinger til dig! Jeg har fundet to fantastiske hoteller og fly direkte fra København:",dest:null,usePrev:true},
-];
-
-let pendingDest=null;
-
-function useSug(btn){inpEl.value=btn.textContent;document.getElementById('sugs').style.display='none';send();}
-function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}}
-
-function addUserMsg(text){
-  const wrap=document.createElement('div');wrap.className='msg user';
-  const av=document.createElement('div');av.className='av user';av.textContent='D';
-  const bbl=document.createElement('div');bbl.className='bbl';bbl.textContent=text;
-  wrap.appendChild(av);wrap.appendChild(bbl);
-  msgsEl.appendChild(wrap);msgsEl.scrollTop=msgsEl.scrollHeight;
-}
-
-function send(){
-  const text=inpEl.value.trim();if(!text)return;
-  document.getElementById('sugs').style.display='none';
-  inpEl.value='';sndBtn.disabled=true;
-  addUserMsg(text);
-
-  // detect destination from user message
-  const userDest=extractDest(text);
-  if(userDest)pendingDest=userDest;
-
-  const r=demoResponses[Math.min(turn,demoResponses.length-1)];
-  turn++;
-
-  setTimeout(()=>{
-    const wrap=document.createElement('div');wrap.className='msg ai';
-    const av=document.createElement('div');av.className='av ai';av.textContent='R';
-    const bbl=document.createElement('div');bbl.className='bbl';
-
-    const destToUse=pendingDest||(text.match(/\b(Kreta|Mallorca|Barcelona|Paris|Bali)\b/i)||['Kreta'])[0];
-    const replyText=r.usePrev
-      ?'Perfekt! Her er mine anbefalinger til '+destToUse+' — to tophoteller og direkte fly fra København:'
-      :r.text;
-
-    bbl.textContent=replyText;
-    wrap.appendChild(av);wrap.appendChild(bbl);
-
-    if(r.usePrev||turn>=2){
-      wrap.appendChild(buildRecommendations(destToUse));
-    }
-    msgsEl.appendChild(wrap);
-    msgsEl.scrollTop=msgsEl.scrollHeight;
-    sndBtn.disabled=false;
-  },1000);
-}
-</script>
-</body>
-</html>
+    <p class="hero
