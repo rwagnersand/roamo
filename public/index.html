@@ -371,9 +371,7 @@ async function send(){
   try{
     const r1=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:history,mode:'chat'})});
     const d1=await r1.json();const reply=d1.reply||'';
-const cleanReply=reply.replace('[KLAR_TIL_ANBEFALING]','');bbl.innerHTML=cleanReply.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/^- (.+)$/gm,'<li>$1</li>').replace(/(<li>.*<\/li>)/s,'<ul style="padding-left:1.2rem;margin:0.5rem 0">$1</ul>');    bbl.classList.remove('typing');history.push({role:'assistant',content:reply});
-    if(reply.includes('[KLAR_TIL_ANBEFALING]')){
-      const rw=document.createElement('div');rw.className='msg ai';
+if(reply.includes('[KLAR_TIL_ANBEFALING]')){const cleanReply=reply.replace('[KLAR_TIL_ANBEFALING]','');bbl.innerHTML=cleanReply.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/^- (.+)$/gm,'<li>$1</li>').replace(/(<li>.*<\/li>)/s,'<ul style="padding-left:1.2rem;margin:0.5rem 0">$1</ul>');    if(reply.includes('[KLAR_TIL_ANBEFALING]')){
       const ra=document.createElement('div');ra.className='av ai';ra.textContent='R';
       const rb=document.createElement('div');rb.className='bbl typing';rb.textContent='Søger hoteller og fly';
       rw.appendChild(ra);rw.appendChild(rb);msgsEl.appendChild(rw);msgsEl.scrollTop=msgsEl.scrollHeight;
