@@ -36,10 +36,7 @@ Returner KUN et JSON-objekt (ingen tekst før eller efter, ingen markdown) med d
   "iataCode": "3-bogstavs IATA kode for nærmeste lufthavn"
 }
 Inkluder 2 hoteller og 1-2 flyafgange. Vær realistisk med priser og flyselskaber fra København.`
-    : `Du er Roamo, en venlig dansk AI-rejseassistent. Hjælp danskere med at planlægge drømmerejser.
-Stil spørgsmål om budget, datoer, interesser og rejsedeltagere.
-Når brugeren nævner en konkret destination, svar kort og bekræftende og sig at du finder hoteller og fly nu.
-Hold svar under 4 sætninger. Skriv altid på dansk.`;
+    : `Du er Roamo, en venlig dansk AI-rejseassistent. Hjælp danskere med at planlægge drømmerejser. Stil spørgsmål om budget, datoer, interesser og rejsedeltagere. Når brugeren nævner en konkret destination, svar kort og bekræftende. Hold svar under 4 sætninger. Skriv altid på dansk.`;
 
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -50,7 +47,7 @@ Hold svar under 4 sætninger. Skriv altid på dansk.`;
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-haiku-4-5-20251001',
         max_tokens: 1000,
         system,
         messages
@@ -58,6 +55,11 @@ Hold svar under 4 sætninger. Skriv altid på dansk.`;
     });
 
     const data = await response.json();
+
+    if (data.error) {
+      return res.status(500).json({ error: data.error.message });
+    }
+
     const reply = data.content.map(b => b.text || '').join('');
 
     if (mode === 'recommend') {
@@ -72,6 +74,6 @@ Hold svar under 4 sætninger. Skriv altid på dansk.`;
       res.status(200).json({ type: 'text', reply });
     }
   } catch (err) {
-    res.status(500).json({ error: 'Noget gik galt. Prøv igen.' });
+    res.status(500).json({ error: err.message });
   }
 }
