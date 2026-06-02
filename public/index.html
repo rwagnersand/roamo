@@ -48,7 +48,6 @@
     .word-reveal-text{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;line-height:1.5;color:var(--ink)}
     .word{display:inline-block;opacity:0;transform:translateY(30px) rotate(3deg);transition:opacity 0.5s ease,transform 0.5s ease;margin:0 0.15rem}
     .word.visible{opacity:1;transform:translateY(0) rotate(0deg)}
-    .word em{font-style:italic;color:var(--terra)}
     .strip{padding:2.5rem 0;overflow:hidden;border-top:1px solid var(--brd);border-bottom:1px solid var(--brd);background:#fff}
     .strip-track{display:flex;gap:1rem;animation:scroll 30s linear infinite;width:max-content}
     .strip-track:hover{animation-play-state:paused}
@@ -81,7 +80,7 @@
     .hotel-card{background:#fff;border:1px solid var(--brd);border-radius:0.85rem;overflow:hidden;transition:border-color 0.2s,transform 0.2s;animation:fadeUp 0.4s ease both}
     .hotel-card:hover{border-color:var(--terra);transform:translateX(3px)}
     .hotel-inner{display:flex}
-    .hotel-img{width:88px;height:78px;object-fit:cover;flex-shrink:0;background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:1.5rem}
+    .hotel-img{width:88px;height:78px;flex-shrink:0;background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:1.5rem}
     .hotel-body{padding:0.6rem 0.85rem;flex:1;display:flex;flex-direction:column;justify-content:space-between}
     .hotel-top{display:flex;justify-content:space-between;align-items:flex-start}
     .hotel-name{font-weight:600;font-size:0.82rem;color:var(--ink);line-height:1.3}
@@ -204,12 +203,12 @@
     <p class="section-sub">Nævn en destination — så finder Roamo konkrete hoteller og fly direkte i chatten.</p>
     <div class="chat-box">
       <div class="chat-msgs" id="msgs">
-        <div class="msg ai"><div class="av ai">R</div><div class="bbl">Hej! Velkommen til Roamo 👋 Fortæl om DIN drømmerejse — så finder jeg fly, hoteller og oplevelser til dig med det samme!</div></div>
+        <div class="msg ai"><div class="av ai">R</div><div class="bbl">Hej! Jeg er Roamo 👋 Hvilken destination drømmer du om? Fortæl mig lidt om din rejse, så finder jeg de bedste hoteller og fly til dig!</div></div>
       </div>
       <div class="sugs" id="sugs">
-        <button class="sug" onclick="useSug(this)">Strandferie til Kreta</button>
+        <button class="sug" onclick="useSug(this)">Familie til Kreta i sommer</button>
         <button class="sug" onclick="useSug(this)">Par til Tokyo i foråret</button>
-        <button class="sug" onclick="useSug(this)">Storbyferie til New York</button>
+        <button class="sug" onclick="useSug(this)">Venner til New York</button>
         <button class="sug" onclick="useSug(this)">Romantisk tur til Paris</button>
       </div>
       <div class="inp-row">
@@ -237,156 +236,264 @@
 
 <script>
 // PARALLAX
-window.addEventListener('scroll',()=>{const bg=document.getElementById('heroBg');if(bg)bg.style.transform=`translateY(${window.scrollY*0.4}px)`;});
+window.addEventListener('scroll', function() {
+  var bg = document.getElementById('heroBg');
+  if (bg) bg.style.transform = 'translateY(' + (window.scrollY * 0.4) + 'px)';
+});
 
 // SLIDESHOW
-const imgs=document.querySelectorAll('.hero-bg img');
-const dots=document.querySelectorAll('.dot');
-let cur=0,timer;
-function goSlide(n){imgs[cur].classList.remove('active');dots[cur].classList.remove('active');cur=n;imgs[cur].classList.add('active');dots[cur].classList.add('active');clearInterval(timer);timer=setInterval(()=>goSlide((cur+1)%imgs.length),5000);}
-timer=setInterval(()=>goSlide((cur+1)%imgs.length),5000);
+var imgs = document.querySelectorAll('.hero-bg img');
+var dots = document.querySelectorAll('.dot');
+var cur = 0, timer;
+function goSlide(n) {
+  imgs[cur].classList.remove('active');
+  dots[cur].classList.remove('active');
+  cur = n;
+  imgs[cur].classList.add('active');
+  dots[cur].classList.add('active');
+  clearInterval(timer);
+  timer = setInterval(function() { goSlide((cur + 1) % imgs.length); }, 5000);
+}
+timer = setInterval(function() { goSlide((cur + 1) % imgs.length); }, 5000);
 
 // TITLE REVEAL
-setTimeout(()=>{document.getElementById('tl1').classList.add('visible');setTimeout(()=>document.getElementById('tl2').classList.add('visible'),200);},300);
+setTimeout(function() {
+  document.getElementById('tl1').classList.add('visible');
+  setTimeout(function() { document.getElementById('tl2').classList.add('visible'); }, 200);
+}, 300);
 
 // TYPEWRITER
-const phrases=['...på kun 10 minutter.','...til alle destinationer.','...med hoteller og fly.','...helt gratis.','...på dansk.'];
-let pi=0,ci=0,deleting=false;
-function typeWriter(){
-  const el=document.getElementById('typewriter');
-  const phrase=phrases[pi];
-  if(!deleting){el.textContent=phrase.substring(0,ci+1);ci++;if(ci===phrase.length){deleting=true;setTimeout(typeWriter,1800);return;}}
-  else{el.textContent=phrase.substring(0,ci-1);ci--;if(ci===0){deleting=false;pi=(pi+1)%phrases.length;}}
-  setTimeout(typeWriter,deleting?50:80);
+var phrases = ['...på kun 10 minutter.', '...til alle destinationer.', '...med hoteller og fly.', '...helt gratis.', '...på dansk.'];
+var pi = 0, ci = 0, deleting = false;
+function typeWriter() {
+  var el = document.getElementById('typewriter');
+  var phrase = phrases[pi];
+  if (!deleting) {
+    el.textContent = phrase.substring(0, ci + 1);
+    ci++;
+    if (ci === phrase.length) { deleting = true; setTimeout(typeWriter, 1800); return; }
+  } else {
+    el.textContent = phrase.substring(0, ci - 1);
+    ci--;
+    if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; }
+  }
+  setTimeout(typeWriter, deleting ? 50 : 80);
 }
-setTimeout(typeWriter,1200);
+setTimeout(typeWriter, 1200);
 
 // WORD REVEAL
-const wordText='Spar tid. Rejs smartere. Oplev mere. Roamo planlægger din drømmerejse på 10 minutter — så du kan bruge din tid på det der virkelig tæller.';
-const wordEl=document.getElementById('wordReveal');
-wordText.split(' ').forEach(w=>{const span=document.createElement('span');span.className='word';span.textContent=w+' ';wordEl.appendChild(span);});
-new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){wordEl.querySelectorAll('.word').forEach((w,i)=>setTimeout(()=>w.classList.add('visible'),i*60));}});},{threshold:0.3}).observe(wordEl);
+var wordText = 'Spar tid. Rejs smartere. Oplev mere. Roamo planlægger din drømmerejse på 10 minutter — så du kan bruge din tid på det der virkelig tæller.';
+var wordEl = document.getElementById('wordReveal');
+wordText.split(' ').forEach(function(w) {
+  var span = document.createElement('span');
+  span.className = 'word';
+  span.textContent = w + ' ';
+  wordEl.appendChild(span);
+});
+new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      wordEl.querySelectorAll('.word').forEach(function(w, i) {
+        setTimeout(function() { w.classList.add('visible'); }, i * 60);
+      });
+    }
+  });
+}, { threshold: 0.3 }).observe(wordEl);
 
 // COUNT UP
-new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){document.querySelectorAll('.count').forEach(el=>{const target=parseInt(el.dataset.target);const isDecimal=el.dataset.decimal;let current=0;const inc=target/60;const t=setInterval(()=>{current+=inc;if(current>=target){current=target;clearInterval(t);}el.textContent=isDecimal?(current/10).toFixed(1):Math.floor(current).toLocaleString('da-DK');},33);})}});},{threshold:0.5}).observe(document.querySelector('.stats-section'));
+new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      document.querySelectorAll('.count').forEach(function(el) {
+        var target = parseInt(el.dataset.target);
+        var isDecimal = el.dataset.decimal;
+        var current = 0;
+        var inc = target / 60;
+        var t = setInterval(function() {
+          current += inc;
+          if (current >= target) { current = target; clearInterval(t); }
+          el.textContent = isDecimal ? (current / 10).toFixed(1) : Math.floor(current).toLocaleString('da-DK');
+        }, 33);
+      });
+    }
+  });
+}, { threshold: 0.5 }).observe(document.querySelector('.stats-section'));
 
 // DESTINATION STRIP
-const destinations=[
-  {name:'Santorini',img:'https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=400&q=80'},
-  {name:'Barcelona',img:'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=400&q=80'},
-  {name:'Bali',img:'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=400&q=80'},
-  {name:'Paris',img:'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=400&q=80'},
-  {name:'Marokko',img:'https://images.unsplash.com/photo-1539020140153-e479b8c22e70?w=400&q=80'},
-  {name:'Thailand',img:'https://images.unsplash.com/photo-1506665531195-3566af2b4dfa?w=400&q=80'},
-  {name:'Island',img:'https://images.unsplash.com/photo-1504829857797-ddff29c27927?w=400&q=80'},
-  {name:'Kroatien',img:'https://images.unsplash.com/photo-1555990793-da11153b2473?w=400&q=80'},
+var destinations = [
+  { name: 'Santorini', img: 'https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=400&q=80' },
+  { name: 'Barcelona', img: 'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=400&q=80' },
+  { name: 'Bali', img: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=400&q=80' },
+  { name: 'Paris', img: 'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=400&q=80' },
+  { name: 'Marokko', img: 'https://images.unsplash.com/photo-1539020140153-e479b8c22e70?w=400&q=80' },
+  { name: 'Thailand', img: 'https://images.unsplash.com/photo-1506665531195-3566af2b4dfa?w=400&q=80' },
+  { name: 'Island', img: 'https://images.unsplash.com/photo-1504829857797-ddff29c27927?w=400&q=80' },
+  { name: 'Kroatien', img: 'https://images.unsplash.com/photo-1555990793-da11153b2473?w=400&q=80' }
 ];
-const track=document.getElementById('track');
-[...destinations,...destinations].forEach(d=>{const card=document.createElement('div');card.className='strip-card';card.innerHTML='<img src="'+d.img+'" alt="'+d.name+'" loading="lazy"><div class="strip-card-label">'+d.name+'</div>';card.onclick=()=>{document.getElementById('inp').value='Jeg drømmer om at rejse til '+d.name;document.getElementById('chat').scrollIntoView({behavior:'smooth'});};track.appendChild(card);});
+var track = document.getElementById('track');
+destinations.concat(destinations).forEach(function(d) {
+  var card = document.createElement('div');
+  card.className = 'strip-card';
+  card.innerHTML = '<img src="' + d.img + '" alt="' + d.name + '" loading="lazy"><div class="strip-card-label">' + d.name + '</div>';
+  card.onclick = function() {
+    document.getElementById('inp').value = 'Jeg drømmer om at rejse til ' + d.name;
+    document.getElementById('chat').scrollIntoView({ behavior: 'smooth' });
+  };
+  track.appendChild(card);
+});
 
 // CHAT
-const msgsEl=document.getElementById('msgs');
-const inpEl=document.getElementById('inp');
-const sndBtn=document.getElementById('snd');
-let history=[];
-function useSug(btn){inpEl.value=btn.textContent;document.getElementById('sugs').style.display='none';send();}
-function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}}
-function addUserMsg(text){const wrap=document.createElement('div');wrap.className='msg user';const av=document.createElement('div');av.className='av user';av.textContent='D';const bbl=document.createElement('div');bbl.className='bbl';bbl.textContent=text;wrap.appendChild(av);wrap.appendChild(bbl);msgsEl.appendChild(wrap);msgsEl.scrollTop=msgsEl.scrollHeight;}
-function starsStr(n){return '★'.repeat(Math.round(n))+'☆'.repeat(5-Math.round(n));}
-function buildRecs(data){
-  const dest=data.destination;
-  const iata=(data.iataCode||dest.substring(0,3)).toUpperCase();
-  const userMessages=history.filter(m=>m.role==='user').map(m=>m.content).join(' ');
-const persons=userMessages.match(/(\d+)\s*(person|voksen|barn|børn|familie|par)/i);
-const personCount=persons?persons[1]:'2';
-const tuiUrl='https://www.tui.dk/search/?q='+encodeURIComponent(dest)+'&pax='+personCount;
-const spiesUrl='https://www.spies.dk/rejser/?destination='+encodeURIComponent(dest)+'&travelers='+personCount;
-const tjareborgUrl='https://www.tjaereborg.dk/rejser/?q='+encodeURIComponent(dest)+'&pax='+personCount;
+var msgsEl = document.getElementById('msgs');
+var inpEl = document.getElementById('inp');
+var sndBtn = document.getElementById('snd');
+var history = [];
 
-  const container=document.createElement('div');container.className='rec-cards';
+function useSug(btn) {
+  inpEl.value = btn.textContent;
+  document.getElementById('sugs').style.display = 'none';
+  send();
+}
 
-  // INTRO
-  const intro=document.createElement('div');
-  intro.style.cssText='font-size:0.85rem;color:var(--muted);line-height:1.6;font-style:italic;padding:0.25rem 0';
-  intro.textContent=data.intro||'';container.appendChild(intro);
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+}
 
-  // PAKKEREJSE KORT
-  const pkgLabel=document.createElement('div');pkgLabel.className='rec-label';pkgLabel.textContent='✈️🏨 Book som pakkerejse';container.appendChild(pkgLabel);
-  const pkg=document.createElement('div');
-  pkg.style.cssText='background:linear-gradient(135deg,#1A1814,#2D2420);border-radius:0.85rem;padding:1.25rem 1.25rem;margin-bottom:0.25rem;animation:fadeUp 0.4s ease both';
-  pkg.innerHTML=`
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem">
-      <div>
-        <div style="color:#F0A882;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;margin-bottom:0.25rem">Anbefalet pakke</div>
-        <div style="color:#fff;font-weight:600;font-size:1rem">${dest} — Fly + Hotel</div>
-        <div style="color:rgba(255,255,255,0.55);font-size:0.78rem;margin-top:0.2rem">Alt inkluderet · Ingen stress · Én pris</div>
-      </div>
-      <div style="background:var(--terra);color:#fff;padding:0.3rem 0.75rem;border-radius:2rem;font-size:0.72rem;font-weight:600;white-space:nowrap">Mest populær</div>
-    </div>
-    <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
-      <a href="${tuiUrl}" target="_blank" rel="noopener" style="flex:1;min-width:80px;background:var(--terra);color:#fff;border:none;padding:0.6rem 0;border-radius:2rem;font-size:0.82rem;font-weight:600;text-align:center;text-decoration:none;font-family:'DM Sans',sans-serif;transition:background 0.15s">TUI →</a>
-      <a href="${spiesUrl}" target="_blank" rel="noopener" style="flex:1;min-width:80px;background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);padding:0.6rem 0;border-radius:2rem;font-size:0.82rem;font-weight:600;text-align:center;text-decoration:none;font-family:'DM Sans',sans-serif">Spies →</a>
-      <a href="${tjareborgUrl}" target="_blank" rel="noopener" style="flex:1;min-width:80px;background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);padding:0.6rem 0;border-radius:2rem;font-size:0.82rem;font-weight:600;text-align:center;text-decoration:none;font-family:'DM Sans',sans-serif">Tjæreborg →</a>
-    </div>`;
+function addUserMsg(text) {
+  var wrap = document.createElement('div'); wrap.className = 'msg user';
+  var av = document.createElement('div'); av.className = 'av user'; av.textContent = 'D';
+  var bbl = document.createElement('div'); bbl.className = 'bbl'; bbl.textContent = text;
+  wrap.appendChild(av); wrap.appendChild(bbl);
+  msgsEl.appendChild(wrap); msgsEl.scrollTop = msgsEl.scrollHeight;
+}
+
+function starsStr(n) {
+  return '★'.repeat(Math.round(n)) + '☆'.repeat(5 - Math.round(n));
+}
+
+function buildRecs(data) {
+  var dest = data.destination;
+  var iata = (data.iataCode || dest.substring(0, 3)).toUpperCase();
+  var skyUrl = 'https://www.skyscanner.dk/transport/flyvninger/cph/' + iata.toLowerCase() + '/';
+  var gygUrl = 'https://www.getyourguide.dk/s/?q=' + encodeURIComponent(dest);
+  var tuiUrl = 'https://www.tui.dk/search/?q=' + encodeURIComponent(dest);
+  var spiesUrl = 'https://www.spies.dk/rejser/' + encodeURIComponent(dest.toLowerCase());
+  var tjareborgUrl = 'https://www.tjaereborg.dk/rejser/' + encodeURIComponent(dest.toLowerCase());
+
+  var container = document.createElement('div'); container.className = 'rec-cards';
+
+  var intro = document.createElement('div');
+  intro.style.cssText = 'font-size:0.85rem;color:var(--muted);line-height:1.6;font-style:italic;padding:0.25rem 0';
+  intro.textContent = data.intro || '';
+  container.appendChild(intro);
+
+  // PAKKEREJSE
+  var pkgLabel = document.createElement('div'); pkgLabel.className = 'rec-label'; pkgLabel.textContent = '✈️🏨 Book som pakkerejse';
+  container.appendChild(pkgLabel);
+  var pkg = document.createElement('div');
+  pkg.style.cssText = 'background:linear-gradient(135deg,#1A1814,#2D2420);border-radius:0.85rem;padding:1.25rem;margin-bottom:0.25rem';
+  pkg.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem"><div><div style="color:#F0A882;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;margin-bottom:0.25rem">Anbefalet pakke</div><div style="color:#fff;font-weight:600;font-size:1rem">' + dest + ' — Fly + Hotel</div><div style="color:rgba(255,255,255,0.55);font-size:0.78rem;margin-top:0.2rem">Alt inkluderet · Ingen stress · Én pris</div></div><div style="background:var(--terra);color:#fff;padding:0.3rem 0.75rem;border-radius:2rem;font-size:0.72rem;font-weight:600;white-space:nowrap">Mest populær</div></div><div style="display:flex;gap:0.5rem;flex-wrap:wrap"><a href="' + tuiUrl + '" target="_blank" rel="noopener" style="flex:1;min-width:80px;background:var(--terra);color:#fff;padding:0.6rem 0;border-radius:2rem;font-size:0.82rem;font-weight:600;text-align:center;text-decoration:none;font-family:DM Sans,sans-serif">TUI →</a><a href="' + spiesUrl + '" target="_blank" rel="noopener" style="flex:1;min-width:80px;background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);padding:0.6rem 0;border-radius:2rem;font-size:0.82rem;font-weight:600;text-align:center;text-decoration:none;font-family:DM Sans,sans-serif">Spies →</a><a href="' + tjareborgUrl + '" target="_blank" rel="noopener" style="flex:1;min-width:80px;background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);padding:0.6rem 0;border-radius:2rem;font-size:0.82rem;font-weight:600;text-align:center;text-decoration:none;font-family:DM Sans,sans-serif">Tjæreborg →</a></div>';
   container.appendChild(pkg);
 
-  // DIVIDER
-  const div=document.createElement('div');
-  div.style.cssText='display:flex;align-items:center;gap:0.75rem;margin:0.75rem 0;';
-  div.innerHTML='<div style="flex:1;height:1px;background:var(--brd)"></div><div style="font-size:0.72rem;color:var(--muted);white-space:nowrap">eller sammensæt selv</div><div style="flex:1;height:1px;background:var(--brd)"></div>';
-  container.appendChild(div);
+  var divider = document.createElement('div');
+  divider.style.cssText = 'display:flex;align-items:center;gap:0.75rem;margin:0.75rem 0';
+  divider.innerHTML = '<div style="flex:1;height:1px;background:var(--brd)"></div><div style="font-size:0.72rem;color:var(--muted);white-space:nowrap">eller sammensæt selv</div><div style="flex:1;height:1px;background:var(--brd)"></div>';
+  container.appendChild(divider);
 
   // HOTELLER
-  const hl=document.createElement('div');hl.className='rec-label';hl.textContent='🏨 Anbefalede hoteller';container.appendChild(hl);
-  (data.hotels||[]).forEach((h,i)=>{
-    const card=document.createElement('div');card.className='hotel-card';card.style.animationDelay=(i*0.08)+'s';
-    const hotelSearch='https://www.booking.com/search.html?ss='+encodeURIComponent(h.name+' '+dest);
-    card.innerHTML=`<div class="hotel-inner"><div class="hotel-img">🏨</div><div class="hotel-body"><div><div class="hotel-top"><div class="hotel-name">${h.name}</div><div class="hotel-stars">${'★'.repeat(Math.round(h.stars))+'☆'.repeat(5-Math.round(h.stars))}</div></div><div class="hotel-desc">${h.desc}${h.area?' · '+h.area:''}</div></div><div class="hotel-footer"><div class="hotel-price">${h.price}</div><a class="hotel-btn" href="${hotelSearch}" target="_blank" rel="noopener">Se hotel →</a></div></div></div>`;
+  var hl = document.createElement('div'); hl.className = 'rec-label'; hl.textContent = '🏨 Anbefalede hoteller';
+  container.appendChild(hl);
+  (data.hotels || []).forEach(function(h, i) {
+    var card = document.createElement('div'); card.className = 'hotel-card'; card.style.animationDelay = (i * 0.08) + 's';
+    var hotelSearch = 'https://www.booking.com/search.html?ss=' + encodeURIComponent(h.name + ' ' + dest);
+    card.innerHTML = '<div class="hotel-inner"><div class="hotel-img">🏨</div><div class="hotel-body"><div><div class="hotel-top"><div class="hotel-name">' + h.name + '</div><div class="hotel-stars">' + starsStr(h.stars) + '</div></div><div class="hotel-desc">' + h.desc + (h.area ? ' · ' + h.area : '') + '</div></div><div class="hotel-footer"><div class="hotel-price">' + h.price + '</div><a class="hotel-btn" href="' + hotelSearch + '" target="_blank" rel="noopener">Se hotel →</a></div></div></div>';
     container.appendChild(card);
   });
 
   // FLY
-  const fl=document.createElement('div');fl.className='rec-label';fl.style.marginTop='0.5rem';fl.textContent='✈️ Fly fra København';container.appendChild(fl);
-  (data.flights||[]).forEach((f,i)=>{
-    const card=document.createElement('div');card.className='flight-card';card.style.animationDelay=(i*0.1)+'s';
-    card.innerHTML=`<div class="flight-row"><div style="text-align:center"><div class="flight-code">${f.from}</div><div class="flight-city">${f.fromCity}</div></div><div class="flight-mid"><div class="flight-line"><div class="flight-dot"></div><div class="flight-dash"></div><span style="font-size:0.8rem">✈</span><div class="flight-dash"></div><div class="flight-dot"></div></div><div class="flight-dur">${f.duration}</div></div><div style="text-align:center"><div class="flight-code">${f.to}</div><div class="flight-city">${f.toCity}</div></div></div><div class="flight-foot"><div class="flight-airline">${f.airline}</div><div class="flight-price">${f.price}</div><a class="flight-btn" href="${skyUrl}" target="_blank" rel="noopener">Book fly →</a></div>`;
+  var fl = document.createElement('div'); fl.className = 'rec-label'; fl.style.marginTop = '0.5rem'; fl.textContent = '✈️ Fly fra København';
+  container.appendChild(fl);
+  (data.flights || []).forEach(function(f, i) {
+    var card = document.createElement('div'); card.className = 'flight-card'; card.style.animationDelay = (i * 0.1) + 's';
+    card.innerHTML = '<div class="flight-row"><div style="text-align:center"><div class="flight-code">' + f.from + '</div><div class="flight-city">' + f.fromCity + '</div></div><div class="flight-mid"><div class="flight-line"><div class="flight-dot"></div><div class="flight-dash"></div><span style="font-size:0.8rem">✈</span><div class="flight-dash"></div><div class="flight-dot"></div></div><div class="flight-dur">' + f.duration + '</div></div><div style="text-align:center"><div class="flight-code">' + f.to + '</div><div class="flight-city">' + f.toCity + '</div></div></div><div class="flight-foot"><div class="flight-airline">' + f.airline + '</div><div class="flight-price">' + f.price + '</div><a class="flight-btn" href="' + skyUrl + '" target="_blank" rel="noopener">Book fly →</a></div>';
     container.appendChild(card);
   });
 
   // OPLEVELSER
-  const gl=document.createElement('div');gl.className='rec-label';gl.style.marginTop='0.5rem';gl.textContent='🎟️ Oplevelser';container.appendChild(gl);
-  const gc=document.createElement('div');gc.style.cssText='background:#fff;border:1px solid var(--brd);border-radius:0.85rem;padding:0.7rem 1rem;display:flex;justify-content:space-between;align-items:center;font-size:0.85rem';
-  gc.innerHTML=`<div><div style="font-weight:500">Oplevelser i ${dest}</div><div style="font-size:0.75rem;color:var(--muted)">Tours, aktiviteter og guidede ture</div></div><a style="background:#FF5A33;color:#fff;padding:0.22rem 0.7rem;border-radius:2rem;font-size:0.7rem;font-weight:500;text-decoration:none;white-space:nowrap;font-family:'DM Sans',sans-serif" href="${gygUrl}" target="_blank" rel="noopener">Se oplevelser →</a>`;
+  var gl = document.createElement('div'); gl.className = 'rec-label'; gl.style.marginTop = '0.5rem'; gl.textContent = '🎟️ Oplevelser';
+  container.appendChild(gl);
+  var gc = document.createElement('div');
+  gc.style.cssText = 'background:#fff;border:1px solid var(--brd);border-radius:0.85rem;padding:0.7rem 1rem;display:flex;justify-content:space-between;align-items:center;font-size:0.85rem';
+  gc.innerHTML = '<div><div style="font-weight:500">Oplevelser i ' + dest + '</div><div style="font-size:0.75rem;color:var(--muted)">Tours, aktiviteter og guidede ture</div></div><a style="background:#FF5A33;color:#fff;padding:0.22rem 0.7rem;border-radius:2rem;font-size:0.7rem;font-weight:500;text-decoration:none;white-space:nowrap;font-family:DM Sans,sans-serif" href="' + gygUrl + '" target="_blank" rel="noopener">Se oplevelser →</a>';
   container.appendChild(gc);
   return container;
 }
-async function send(){
-  const text=inpEl.value.trim();if(!text)return;
-  document.getElementById('sugs').style.display='none';inpEl.value='';sndBtn.disabled=true;addUserMsg(text);
-  history.push({role:'user',content:text});
-  const wrap=document.createElement('div');wrap.className='msg ai';
-  const av=document.createElement('div');av.className='av ai';av.textContent='R';
-  const bbl=document.createElement('div');bbl.className='bbl typing';bbl.textContent='Finder den bedste rejse';
-  wrap.appendChild(av);wrap.appendChild(bbl);msgsEl.appendChild(wrap);msgsEl.scrollTop=msgsEl.scrollHeight;
-  try{
-    const r1=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:history,mode:'chat'})});
-    const d1=await r1.json();const reply=d1.reply||'';
-if(reply.includes('[KLAR_TIL_ANBEFALING]')){const cleanReply=reply.replace('[KLAR_TIL_ANBEFALING]','');bbl.innerHTML=cleanReply.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/^- (.+)$/gm,'<li>$1</li>').replace(/(<li>.*<\/li>)/s,'<ul style="padding-left:1.2rem;margin:0.5rem 0">$1</ul>');    if(reply.includes('[KLAR_TIL_ANBEFALING]')){
-     const rw=document.createElement('div');rw.className='msg ai';
-  const ra=document.createElement('div');ra.className='av ai';ra.textContent='R';
-      const rb=document.createElement('div');rb.className='bbl typing';rb.textContent='Søger hoteller og fly';
-      rw.appendChild(ra);rw.appendChild(rb);msgsEl.appendChild(rw);msgsEl.scrollTop=msgsEl.scrollHeight;
-      const lastUserMsg=history.filter(m=>m.role==='user').pop().content;
-      const destMsg=history.filter(m=>m.role==='user').map(m=>m.content).join(' ');
-const destDetect=destMsg.match(/\b(Kreta|Mallorca|Barcelona|Paris|Rom|London|Amsterdam|Lissabon|Tenerife|Gran Canaria|Ibiza|Kroatien|Thailand|Bali|Dubai|New York|Tokyo|Prag|Wien|Budapest|Berlin|Marokko|Tyrkiet|Antalya|Istanbul|Malta|Cypern|Sicilien|Island|Santorini|Malaga|Alicante|Madrid|Athen|Rhodos|Korfu|Dubrovnik|Phuket|Singapore|Sydney|Cape Town|Cancun|Miami|Los Angeles|Chicago|San Francisco|Toronto|Lisboa)\b/i);
-const allText=history.filter(m=>m.role==='user').map(m=>m.content).join(' ');
-const destDetect2=allText.match(/\b(Malaga|Kreta|Mallorca|Barcelona|Paris|Rom|London|Amsterdam|Lissabon|Tenerife|Gran Canaria|Ibiza|Kroatien|Thailand|Bali|Dubai|New York|Tokyo|Prag|Wien|Budapest|Berlin|Marokko|Tyrkiet|Antalya|Istanbul|Malta|Cypern|Sicilien|Island|Santorini|Alicante|Madrid|Athen|Rhodos|Korfu|Dubrovnik|Phuket|Singapore|Sydney|Cape Town|Cancun|Miami|Los Angeles|Chicago|San Francisco|Toronto|Lisboa)\b/i);
-const foundDest=destDetect2?destDetect2[1]:'destination ukendt';
-const r2=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:'destination'}],mode:'recommend',destination:foundDest})});      const d2=await r2.json();
-      if(d2.type==='recommendations'&&d2.data){rb.remove();rw.appendChild(buildRecs(d2.data));}
-else{rb.textContent='Kunne ikke hente anbefalinger — prøv igen.';rb.classList.remove('typing');}    }
-  }catch(e){bbl.textContent='Noget gik galt — prøv igen.';bbl.classList.remove('typing');}
-  sndBtn.disabled=false;msgsEl.scrollTop=msgsEl.scrollHeight;
+
+function formatReply(text) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/^- (.+)$/gm, '<li>$1</li>')
+    .replace(/(<li>[\s\S]*<\/li>)/g, '<ul style="padding-left:1.2rem;margin:0.5rem 0">$1</ul>');
+}
+
+async function send() {
+  var text = inpEl.value.trim();
+  if (!text) return;
+  document.getElementById('sugs').style.display = 'none';
+  inpEl.value = '';
+  sndBtn.disabled = true;
+  addUserMsg(text);
+  history.push({ role: 'user', content: text });
+
+  var wrap = document.createElement('div'); wrap.className = 'msg ai';
+  var av = document.createElement('div'); av.className = 'av ai'; av.textContent = 'R';
+  var bbl = document.createElement('div'); bbl.className = 'bbl typing'; bbl.textContent = 'Finder den bedste rejse';
+  wrap.appendChild(av); wrap.appendChild(bbl);
+  msgsEl.appendChild(wrap); msgsEl.scrollTop = msgsEl.scrollHeight;
+
+  try {
+    var r1 = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: history, mode: 'chat' }) });
+    var d1 = await r1.json();
+    var reply = d1.reply || '';
+
+    var hasSignal = reply.includes('[KLAR_TIL_ANBEFALING]');
+    var cleanReply = reply.replace('[KLAR_TIL_ANBEFALING]', '').trim();
+    bbl.innerHTML = formatReply(cleanReply);
+    bbl.classList.remove('typing');
+    history.push({ role: 'assistant', content: cleanReply });
+
+    if (hasSignal) {
+      var rw = document.createElement('div'); rw.className = 'msg ai';
+      var ra = document.createElement('div'); ra.className = 'av ai'; ra.textContent = 'R';
+      var rb = document.createElement('div'); rb.className = 'bbl typing'; rb.textContent = 'Søger hoteller og fly';
+      rw.appendChild(ra); rw.appendChild(rb);
+      msgsEl.appendChild(rw); msgsEl.scrollTop = msgsEl.scrollHeight;
+
+      var allText = history.filter(function(m) { return m.role === 'user'; }).map(function(m) { return m.content; }).join(' ');
+      var destMatch = allText.match(/\b(Malaga|Kreta|Mallorca|Barcelona|Paris|Rom|London|Amsterdam|Lissabon|Tenerife|Gran Canaria|Ibiza|Kroatien|Thailand|Bali|Dubai|New York|Tokyo|Prag|Wien|Budapest|Berlin|Marokko|Tyrkiet|Antalya|Istanbul|Malta|Cypern|Sicilien|Island|Santorini|Alicante|Madrid|Athen|Rhodos|Korfu|Dubrovnik|Phuket|Singapore|Sydney|Cape Town|Cancun|Miami|Los Angeles|Chicago|San Francisco|Toronto|Lisboa|Lanzarote|Fuerteventura|Mykonos|Split|Zadar|Palma)\b/i);
+      var foundDest = destMatch ? destMatch[1] : text;
+
+      try {
+        var r2 = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: [{ role: 'user', content: 'destination' }], mode: 'recommend', destination: foundDest }) });
+        var d2 = await r2.json();
+        if (d2.type === 'recommendations' && d2.data) {
+          rb.remove();
+          rw.appendChild(buildRecs(d2.data));
+        } else {
+          rb.textContent = 'Kunne ikke hente anbefalinger — prøv igen.';
+          rb.classList.remove('typing');
+        }
+      } catch(e2) {
+        rb.textContent = 'Kunne ikke hente anbefalinger — prøv igen.';
+        rb.classList.remove('typing');
+      }
+      msgsEl.scrollTop = msgsEl.scrollHeight;
+    }
+  } catch(e) {
+    bbl.textContent = 'Noget gik galt — prøv igen.';
+    bbl.classList.remove('typing');
+  }
+  sndBtn.disabled = false;
+  msgsEl.scrollTop = msgsEl.scrollHeight;
 }
 </script>
 </body>
