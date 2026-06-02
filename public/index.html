@@ -293,7 +293,7 @@ function useSug(btn){inpEl.value=btn.textContent;document.getElementById('sugs')
 function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}}
 function addUserMsg(text){const wrap=document.createElement('div');wrap.className='msg user';const av=document.createElement('div');av.className='av user';av.textContent='D';const bbl=document.createElement('div');bbl.className='bbl';bbl.textContent=text;wrap.appendChild(av);wrap.appendChild(bbl);msgsEl.appendChild(wrap);msgsEl.scrollTop=msgsEl.scrollHeight;}
 function starsStr(n){return '★'.repeat(Math.round(n))+'☆'.repeat(5-Math.round(n));}
-ffunction buildRecs(data){
+function buildRecs(data){
   const dest=data.destination;
   const iata=(data.iataCode||dest.substring(0,3)).toUpperCase();
   const skyUrl='https://www.skyscanner.dk/transport/flyvninger/cph/'+iata.toLowerCase()+'/';
