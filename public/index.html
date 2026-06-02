@@ -296,9 +296,12 @@ function starsStr(n){return '★'.repeat(Math.round(n))+'☆'.repeat(5-Math.roun
 function buildRecs(data){
   const dest=data.destination;
   const iata=(data.iataCode||dest.substring(0,3)).toUpperCase();
-  const skyUrl='https://www.skyscanner.dk/transport/flyvninger/cph/'+iata.toLowerCase()+'/';
-  const gygUrl='https://www.getyourguide.dk/s/?q='+encodeURIComponent(dest);
-  const tuiUrl='https://www.tui.dk/search/?q='+encodeURIComponent(dest)+'&type=holiday';
+  const userMessages=history.filter(m=>m.role==='user').map(m=>m.content).join(' ');
+const persons=userMessages.match(/(\d+)\s*(person|voksen|barn|børn|familie|par)/i);
+const personCount=persons?persons[1]:'2';
+const tuiUrl='https://www.tui.dk/search/?q='+encodeURIComponent(dest)+'&pax='+personCount;
+const spiesUrl='https://www.spies.dk/rejser/?destination='+encodeURIComponent(dest)+'&travelers='+personCount;
+const tjareborgUrl='https://www.tjaereborg.dk/rejser/?q='+encodeURIComponent(dest)+'&pax='+personCount;
 const spiesUrl='https://www.spies.dk/rejser/'+encodeURIComponent(dest.toLowerCase());
 const tjareborgUrl='https://www.tjaereborg.dk/rejser/'+encodeURIComponent(dest.toLowerCase());
   const container=document.createElement('div');container.className='rec-cards';
