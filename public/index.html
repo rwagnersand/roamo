@@ -298,9 +298,9 @@ function buildRecs(data){
   const iata=(data.iataCode||dest.substring(0,3)).toUpperCase();
   const skyUrl='https://www.skyscanner.dk/transport/flyvninger/cph/'+iata.toLowerCase()+'/';
   const gygUrl='https://www.getyourguide.dk/s/?q='+encodeURIComponent(dest);
-  const tuiUrl='https://www.tui.dk/rejser/?q='+encodeURIComponent(dest);
-  const spiesUrl='https://www.spies.dk/search?destination='+encodeURIComponent(dest);
-  const tjareborgUrl='https://www.tjaereborg.dk/search?destination='+encodeURIComponent(dest);
+  const tuiUrl='https://www.tui.dk/search/?q='+encodeURIComponent(dest)+'&type=holiday';
+const spiesUrl='https://www.spies.dk/rejser/'+encodeURIComponent(dest.toLowerCase());
+const tjareborgUrl='https://www.tjaereborg.dk/rejser/'+encodeURIComponent(dest.toLowerCase());
   const container=document.createElement('div');container.className='rec-cards';
 
   // INTRO
@@ -371,7 +371,7 @@ async function send(){
     const d1=await r1.json();const reply=d1.reply||'';
     bbl.innerHTML=reply.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/^- (.+)$/gm,'<li>$1</li>').replace(/(<li>.*<\/li>)/s,'<ul style="padding-left:1.2rem;margin:0.5rem 0">$1</ul>');
     bbl.classList.remove('typing');history.push({role:'assistant',content:reply});
-    if(history.length>=4){
+    if(history.length>=8){
       const rw=document.createElement('div');rw.className='msg ai';
       const ra=document.createElement('div');ra.className='av ai';ra.textContent='R';
       const rb=document.createElement('div');rb.className='bbl typing';rb.textContent='Søger hoteller og fly';
