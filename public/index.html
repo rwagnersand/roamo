@@ -381,7 +381,9 @@ async function send(){
       const lastUserMsg=history.filter(m=>m.role==='user').pop().content;
       const destMsg=history.filter(m=>m.role==='user').map(m=>m.content).join(' ');
 const destDetect=destMsg.match(/\b(Kreta|Mallorca|Barcelona|Paris|Rom|London|Amsterdam|Lissabon|Tenerife|Gran Canaria|Ibiza|Kroatien|Thailand|Bali|Dubai|New York|Tokyo|Prag|Wien|Budapest|Berlin|Marokko|Tyrkiet|Antalya|Istanbul|Malta|Cypern|Sicilien|Island|Santorini|Malaga|Alicante|Madrid|Athen|Rhodos|Korfu|Dubrovnik|Phuket|Singapore|Sydney|Cape Town|Cancun|Miami|Los Angeles|Chicago|San Francisco|Toronto|Lisboa)\b/i);
-const foundDest=destDetect?destDetect[1]:history.filter(m=>m.role==='user')[0].content;
+const allText=history.filter(m=>m.role==='user').map(m=>m.content).join(' ');
+const destDetect2=allText.match(/\b(Malaga|Kreta|Mallorca|Barcelona|Paris|Rom|London|Amsterdam|Lissabon|Tenerife|Gran Canaria|Ibiza|Kroatien|Thailand|Bali|Dubai|New York|Tokyo|Prag|Wien|Budapest|Berlin|Marokko|Tyrkiet|Antalya|Istanbul|Malta|Cypern|Sicilien|Island|Santorini|Alicante|Madrid|Athen|Rhodos|Korfu|Dubrovnik|Phuket|Singapore|Sydney|Cape Town|Cancun|Miami|Los Angeles|Chicago|San Francisco|Toronto|Lisboa)\b/i);
+const foundDest=destDetect2?destDetect2[1]:'destination ukendt';
 const r2=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:'destination'}],mode:'recommend',destination:foundDest})});
       const d2=await r2.json();
       if(d2.type==='recommendations'&&d2.data){rb.remove();rw.appendChild(buildRecs(d2.data));}
