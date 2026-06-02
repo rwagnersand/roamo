@@ -3,176 +3,365 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Roamo — Din personlige rejseassistent</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <title>Roamo — Planlæg din drømmerejse på 10 minutter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
-    :root{--sand:#F5F0E8;--ink:#1A1814;--terra:#C4622D;--terra-light:#F0E0D6;--muted:#7A7568;--brd:#E0D9CE;}
+    :root{--sand:#F5F0E8;--ink:#1A1814;--terra:#C4622D;--terra-light:#F0E0D6;--muted:#7A7568;--brd:#E0D9CE;--green:#2D8A4E;--green-light:#E8F5EE;}
     html{scroll-behavior:smooth}
-    body{font-family:'DM Sans',sans-serif;background:var(--sand);color:var(--ink);overflow-x:hidden}
-    .nav{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 2.5rem;border-bottom:1px solid var(--brd);background:rgba(245,240,232,0.85);backdrop-filter:blur(12px);position:sticky;top:0;z-index:100}
-    .logo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--ink)}
+    body{font-family:'DM Sans',sans-serif;background:#fff;color:var(--ink);overflow-x:hidden}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:#fff;border-bottom:1px solid var(--brd);position:sticky;top:0;z-index:100}
+    .logo{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700}
     .logo span{color:var(--terra)}
-    .nav-tag{font-size:0.72rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;border:1px solid var(--brd);padding:0.25rem 0.7rem;border-radius:2rem}
-    .hero{min-height:92vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4rem 2rem 2rem;position:relative;overflow:hidden}
-    .hero-bg{position:absolute;inset:0;z-index:0}
-    .hero-bg img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.8s ease;filter:brightness(0.35)}
-    .hero-bg img.active{opacity:1}
-    .hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(26,24,20,0.3) 0%,rgba(26,24,20,0.55) 100%)}
-    .hero-content{position:relative;z-index:2;animation:fadeUp 1s ease both}
-    @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
-    .hero-eye{font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:1.25rem;font-weight:500;animation:fadeUp 1s 0.1s ease both}
-    .hero-title{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,7vw,5rem);font-weight:700;line-height:1.05;margin-bottom:1.25rem;color:#fff;animation:fadeUp 1s 0.2s ease both}
-    .hero-title em{font-style:italic;color:#F0A882}
-    .hero-sub{font-size:1.05rem;color:rgba(255,255,255,0.75);max-width:420px;margin:0 auto 2.5rem;line-height:1.7;font-weight:300;animation:fadeUp 1s 0.3s ease both}
-    .cta{background:var(--terra);color:#fff;border:none;padding:0.95rem 2.4rem;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:500;border-radius:3rem;cursor:pointer;transition:background 0.2s,transform 0.2s;animation:fadeUp 1s 0.4s ease both}
-    .cta:hover{background:#A8501F;transform:translateY(-2px)}
-    .dest-dots{display:flex;gap:0.5rem;justify-content:center;margin-top:2rem;position:relative;z-index:2;animation:fadeUp 1s 0.5s ease both}
-    .dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.35);cursor:pointer;transition:all 0.3s;border:none;padding:0}
-    .dot.active{background:#fff;width:18px;border-radius:3px}
-    .strip{padding:3rem 0;overflow:hidden;border-bottom:1px solid var(--brd)}
-    .strip-track{display:flex;gap:1rem;animation:scroll 30s linear infinite;width:max-content}
-    .strip-track:hover{animation-play-state:paused}
-    @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-    .strip-card{flex-shrink:0;width:220px;height:140px;border-radius:0.85rem;overflow:hidden;position:relative;cursor:pointer}
-    .strip-card img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s}
-    .strip-card:hover img{transform:scale(1.06)}
-    .strip-card-label{position:absolute;bottom:0;left:0;right:0;padding:0.5rem 0.75rem;background:linear-gradient(to top,rgba(0,0,0,0.7),transparent);color:#fff;font-size:0.8rem;font-weight:500}
-    .feats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--brd);border-bottom:1px solid var(--brd)}
-    .feat{background:var(--sand);padding:2.5rem 2rem;text-align:center;transition:background 0.2s}
-    .feat:hover{background:#EDE8DF}
-    .feat-num{font-family:'Playfair Display',serif;font-size:2rem;color:var(--terra);opacity:0.25;margin-bottom:0.4rem}
-    .feat-t{font-weight:500;font-size:0.95rem;margin-bottom:0.3rem}
-    .feat-s{font-size:0.83rem;color:var(--muted);line-height:1.6;font-weight:300}
-    .reveal{opacity:0;transform:translateY(32px);transition:opacity 0.7s ease,transform 0.7s ease}
-    .reveal.visible{opacity:1;transform:translateY(0)}
-    .chat-wrap{max-width:700px;margin:0 auto;padding:5rem 1.5rem 4rem}
-    .chat-label{font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--terra);margin-bottom:0.75rem;font-weight:500}
-    .chat-title{font-family:'Playfair Display',serif;font-size:2rem;margin-bottom:1.75rem;line-height:1.2}
+    .nav-cta{background:var(--terra);color:#fff;border:none;padding:0.55rem 1.4rem;border-radius:2rem;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:500;cursor:pointer;transition:background 0.2s}
+    .nav-cta:hover{background:#A8501F}
+    .hero{display:grid;grid-template-columns:1fr 1fr;min-height:88vh;align-items:center;overflow:hidden}
+    .hero-left{padding:5rem 4rem 5rem 5rem;background:#fff}
+    .hero-badge{display:inline-flex;align-items:center;gap:0.4rem;background:var(--green-light);color:var(--green);font-size:0.75rem;font-weight:600;padding:0.35rem 0.85rem;border-radius:2rem;margin-bottom:1.5rem}
+    .hero-title{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,3.5vw,3.4rem);font-weight:700;line-height:1.08;margin-bottom:1.25rem}
+    .hero-title em{font-style:italic;color:var(--terra)}
+    .hero-sub{font-size:1.05rem;color:var(--muted);line-height:1.75;margin-bottom:2rem;max-width:440px;font-weight:300}
+    .hero-cta{background:var(--terra);color:#fff;border:none;padding:1rem 2.4rem;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:600;border-radius:3rem;cursor:pointer;transition:all 0.2s}
+    .hero-cta:hover{background:#A8501F;transform:translateY(-2px);box-shadow:0 8px 24px rgba(196,98,45,0.3)}
+    .hero-cta-sub{font-size:0.78rem;color:var(--muted);margin-top:0.75rem}
+    .hero-stats{display:flex;gap:2rem;margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--brd)}
+    .stat-num{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700}
+    .stat-label{font-size:0.78rem;color:var(--muted);margin-top:0.1rem}
+    .hero-right{position:relative;height:100%;min-height:88vh;overflow:hidden}
+    .hero-right img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.8s ease;position:absolute;inset:0}
+    .hero-right img.active{opacity:1}
+    .proof-bar{background:var(--sand);padding:1.25rem 2.5rem;display:flex;align-items:center;justify-content:center;gap:3rem;border-bottom:1px solid var(--brd);flex-wrap:wrap}
+    .proof-item{display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;color:var(--muted)}
+
+    /* CHAT SECTION */
+    .chat-section{background:var(--sand);padding:5rem 2rem}
+    .chat-inner{max-width:780px;margin:0 auto}
+    .section-eye{font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--terra);margin-bottom:0.75rem;font-weight:500}
+    .section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.6rem);font-weight:700;margin-bottom:0.75rem;line-height:1.15}
+    .section-sub{font-size:1rem;color:var(--muted);line-height:1.7;font-weight:300;margin-bottom:2rem}
     .chat-box{background:#fff;border:1px solid var(--brd);border-radius:1.25rem;overflow:hidden;box-shadow:0 4px 32px rgba(0,0,0,0.06)}
-    .chat-msgs{min-height:300px;max-height:480px;overflow-y:auto;padding:1.5rem;display:flex;flex-direction:column;gap:1rem}
+    .chat-msgs{min-height:300px;max-height:560px;overflow-y:auto;padding:1.5rem;display:flex;flex-direction:column;gap:1rem}
     .msg{display:flex;gap:0.65rem;align-items:flex-start;animation:fadeUp 0.35s ease both}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
     .msg.user{flex-direction:row-reverse}
     .av{width:32px;height:32px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.68rem;font-weight:500}
     .av.ai{background:var(--terra-light);color:var(--terra)}
     .av.user{background:var(--ink);color:#fff}
-    .bbl{max-width:78%;padding:0.8rem 1.05rem;border-radius:0.9rem;font-size:0.9rem;line-height:1.65}
+    .bbl{max-width:80%;padding:0.8rem 1.05rem;border-radius:0.9rem;font-size:0.9rem;line-height:1.65}
     .msg.ai .bbl{background:var(--sand);color:var(--ink)}
     .msg.user .bbl{background:var(--terra);color:#fff}
     .bbl.typing::after{content:'...';animation:dots 1.2s infinite}
     @keyframes dots{0%,20%{content:'.'} 40%{content:'..'} 60%,100%{content:'...'}}
-    .booking-cards{display:flex;flex-direction:column;gap:0.5rem;margin-top:0.75rem;max-width:95%}
-    .bcard{background:#fff;border:1px solid var(--brd);border-radius:0.7rem;padding:0.65rem 0.9rem;display:flex;align-items:center;justify-content:space-between;gap:0.75rem;transition:border-color 0.2s,transform 0.2s;animation:fadeUp 0.4s ease both}
-    .bcard:hover{border-color:var(--terra);transform:translateX(3px)}
-    .bcard-left{display:flex;align-items:center;gap:0.65rem}
-    .bcard-icon{width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.68rem;font-weight:700;flex-shrink:0;color:#fff}
-    .bcard-title{font-weight:500;font-size:0.82rem;color:var(--ink)}
-    .bcard-sub{color:var(--muted);font-size:0.73rem}
-    .bcard-btn{background:var(--terra);color:#fff;border:none;padding:0.32rem 0.85rem;border-radius:2rem;font-size:0.75rem;font-weight:500;cursor:pointer;white-space:nowrap;text-decoration:none;font-family:'DM Sans',sans-serif;transition:background 0.15s}
-    .bcard-btn:hover{background:#A8501F}
+
+    /* RECOMMENDATION CARDS */
+    .rec-cards{display:flex;flex-direction:column;gap:0.75rem;margin-top:0.75rem;max-width:95%}
+    .rec-section-title{font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:0.25rem;margin-top:0.25rem}
+
+    /* HOTEL CARD */
+    .hotel-card{background:#fff;border:1px solid var(--brd);border-radius:0.85rem;overflow:hidden;transition:border-color 0.2s,transform 0.2s;animation:fadeUp 0.4s ease both}
+    .hotel-card:hover{border-color:var(--terra);transform:translateX(3px)}
+    .hotel-card-inner{display:flex;gap:0}
+    .hotel-img{width:90px;height:80px;object-fit:cover;flex-shrink:0}
+    .hotel-body{padding:0.65rem 0.85rem;flex:1;display:flex;flex-direction:column;justify-content:space-between}
+    .hotel-top{display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem}
+    .hotel-name{font-weight:600;font-size:0.82rem;color:var(--ink)}
+    .hotel-stars{color:#F5A623;font-size:0.7rem;letter-spacing:0.05em}
+    .hotel-desc{font-size:0.75rem;color:var(--muted);line-height:1.4;margin:0.2rem 0}
+    .hotel-footer{display:flex;align-items:center;justify-content:space-between;margin-top:0.3rem}
+    .hotel-price{font-size:0.78rem;color:var(--green);font-weight:600}
+    .hotel-btn{background:var(--terra);color:#fff;border:none;padding:0.25rem 0.75rem;border-radius:2rem;font-size:0.72rem;font-weight:500;cursor:pointer;text-decoration:none;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:background 0.15s}
+    .hotel-btn:hover{background:#A8501F}
+
+    /* FLIGHT CARD */
+    .flight-card{background:#fff;border:1px solid var(--brd);border-radius:0.85rem;padding:0.75rem 1rem;transition:border-color 0.2s,transform 0.2s;animation:fadeUp 0.4s ease both}
+    .flight-card:hover{border-color:#0770e3;transform:translateX(3px)}
+    .flight-row{display:flex;align-items:center;justify-content:space-between;gap:0.5rem}
+    .flight-from,.flight-to{text-align:center}
+    .flight-code{font-size:1.1rem;font-weight:700;color:var(--ink)}
+    .flight-city{font-size:0.7rem;color:var(--muted)}
+    .flight-middle{flex:1;display:flex;flex-direction:column;align-items:center;gap:0.15rem}
+    .flight-line{display:flex;align-items:center;gap:0.25rem;width:100%}
+    .flight-dot{width:6px;height:6px;border-radius:50%;background:var(--muted);flex-shrink:0}
+    .flight-dash{flex:1;height:1px;background:var(--brd)}
+    .flight-plane{font-size:0.85rem}
+    .flight-duration{font-size:0.7rem;color:var(--muted)}
+    .flight-footer{display:flex;align-items:center;justify-content:space-between;margin-top:0.6rem;padding-top:0.6rem;border-top:1px solid var(--brd)}
+    .flight-airline{font-size:0.75rem;color:var(--muted)}
+    .flight-price{font-size:0.82rem;color:var(--green);font-weight:600}
+    .flight-btn{background:#0770e3;color:#fff;border:none;padding:0.25rem 0.75rem;border-radius:2rem;font-size:0.72rem;font-weight:500;cursor:pointer;text-decoration:none;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:background 0.15s}
+    .flight-btn:hover{background:#055ab8}
+
     .sugs{display:flex;flex-wrap:wrap;gap:0.4rem;padding:1rem 1.25rem;border-top:1px solid var(--brd);background:#FDFCFA}
     .sug{background:none;border:1px solid var(--brd);padding:0.32rem 0.8rem;border-radius:2rem;font-family:'DM Sans',sans-serif;font-size:0.8rem;color:var(--muted);cursor:pointer;transition:all 0.2s}
     .sug:hover{border-color:var(--terra);color:var(--terra);background:var(--terra-light)}
     .inp-row{display:flex;border-top:1px solid var(--brd)}
     .inp{flex:1;border:none;padding:1rem 1.25rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;background:#fff;color:var(--ink);outline:none;resize:none}
     .inp::placeholder{color:var(--muted)}
-    .snd{background:var(--terra);color:#fff;border:none;padding:0 1.5rem;cursor:pointer;font-size:1.1rem;transition:background 0.15s,transform 0.1s}
+    .snd{background:var(--terra);color:#fff;border:none;padding:0 1.5rem;cursor:pointer;font-size:1.1rem;transition:background 0.15s}
     .snd:hover{background:#A8501F}
-    .snd:active{transform:scale(0.95)}
     .snd:disabled{background:var(--brd);cursor:not-allowed}
-    .footer{text-align:center;padding:2.5rem;font-size:0.8rem;color:var(--muted);border-top:1px solid var(--brd)}
-    @media(max-width:640px){.feats{grid-template-columns:1fr}.hero-title{font-size:2.6rem}.nav{padding:1rem 1.25rem}}
+
+    /* REST */
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.65s ease,transform 0.65s ease}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .final-cta{background:var(--ink);color:#fff;padding:5rem 2.5rem;text-align:center}
+    .final-cta-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);font-weight:700;margin-bottom:1rem;line-height:1.1}
+    .final-cta-title em{font-style:italic;color:#F0A882}
+    .final-cta-sub{font-size:1rem;color:rgba(255,255,255,0.65);max-width:400px;margin:0 auto 2.5rem;line-height:1.7;font-weight:300}
+    .final-cta-btn{background:var(--terra);color:#fff;border:none;padding:1rem 2.5rem;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:600;border-radius:3rem;cursor:pointer;transition:all 0.2s}
+    .final-cta-btn:hover{background:#A8501F;transform:translateY(-2px)}
+    .footer{background:#fff;border-top:1px solid var(--brd);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;font-size:0.8rem;color:var(--muted)}
+    @media(max-width:768px){.hero{grid-template-columns:1fr}.hero-right{display:none}.hero-left{padding:3rem 1.5rem}.proof-bar{gap:1rem}.hero-stats{gap:1.25rem}.nav{padding:1rem 1.25rem}.footer{flex-direction:column;gap:0.5rem;text-align:center}}
   </style>
 </head>
 <body>
+
 <nav class="nav">
   <div class="logo">Roamo<span>.</span></div>
-  <div class="nav-tag">Beta</div>
+  <button class="nav-cta" onclick="document.getElementById('chat').scrollIntoView({behavior:'smooth'})">Planlæg min rejse</button>
 </nav>
-<div class="hero">
-  <div class="hero-bg" id="heroBg">
-    <img src="https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=1600&q=80" alt="Santorini" class="active">
-    <img src="https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=1600&q=80" alt="Barcelona">
-    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80" alt="Natur">
-    <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1600&q=80" alt="Strand">
-    <img src="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=1600&q=80" alt="Paris">
+
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">★ Brugt af 2.400+ danskere</div>
+    <h1 class="hero-title">Planlæg din drømmerejse<br><em>på 10 minutter</em></h1>
+    <p class="hero-sub">Fortæl Roamo hvad du drømmer om. Vores AI finder hoteller og fly til dig — med direkte booking klar.</p>
+    <button class="hero-cta" onclick="document.getElementById('chat').scrollIntoView({behavior:'smooth'})">Planlæg min rejse gratis →</button>
+    <p class="hero-cta-sub">✓ Helt gratis &nbsp;·&nbsp; ✓ Ingen oprettelse &nbsp;·&nbsp; ✓ Klar på 10 min</p>
+    <div class="hero-stats">
+      <div><div class="stat-num">2.400+</div><div class="stat-label">Tilfredse rejsende</div></div>
+      <div><div class="stat-num">4.8★</div><div class="stat-label">Gennemsnitlig rating</div></div>
+      <div><div class="stat-num">10 min</div><div class="stat-label">Til din rejseplan</div></div>
+    </div>
   </div>
-  <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <div class="hero-eye">Din personlige rejseassistent</div>
-    <h1 class="hero-title">Din næste rejse,<br><em>på 10 minutter</em></h1>
-    <p class="hero-sub">Fortæl os hvad du drømmer om. Vi bygger en komplet, skræddersyet rejseplan — gratis.</p>
-    <button class="cta" onclick="document.getElementById('chat').scrollIntoView({behavior:'smooth'})">Planlæg din rejse</button>
+  <div class="hero-right">
+    <img src="https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=1200&q=80" alt="Santorini" class="active">
+    <img src="https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=1200&q=80" alt="Barcelona">
+    <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1200&q=80" alt="Bali">
   </div>
-  <div class="dest-dots" id="dots">
-    <button class="dot active" onclick="goSlide(0)"></button>
-    <button class="dot" onclick="goSlide(1)"></button>
-    <button class="dot" onclick="goSlide(2)"></button>
-    <button class="dot" onclick="goSlide(3)"></button>
-    <button class="dot" onclick="goSlide(4)"></button>
-  </div>
+</section>
+
+<div class="proof-bar">
+  <div class="proof-item">🏨 Booking.com partner</div>
+  <div class="proof-item">✈️ Skyscanner partner</div>
+  <div class="proof-item">🎟️ GetYourGuide partner</div>
+  <div class="proof-item">🛡️ GDPR-sikret</div>
 </div>
-<div class="strip">
-  <div class="strip-track" id="track"></div>
-</div>
-<div class="feats">
-  <div class="feat reveal"><div class="feat-num">01</div><div class="feat-t">100% dansk</div><div class="feat-s">På dit sprog, med dansk ferie og helligdage in mente</div></div>
-  <div class="feat reveal"><div class="feat-num">02</div><div class="feat-t">Personlig</div><div class="feat-s">Tilpasset dit budget, dine interesser og din familie</div></div>
-  <div class="feat reveal"><div class="feat-num">03</div><div class="feat-t">Gratis</div><div class="feat-s">Vi tjener på hotelprovisioner — ikke dig</div></div>
-</div>
-<div class="chat-wrap reveal" id="chat">
-  <div class="chat-label">Prøv det selv</div>
-  <h2 class="chat-title">Hvad drømmer du om?</h2>
-  <div class="chat-box">
-    <div class="chat-msgs" id="msgs">
-      <div class="msg ai">
-        <div class="av ai">R</div>
-        <div class="bbl">Hej! Jeg er Roamo, din personlige rejseassistent. Fortæl mig om din drømmerejse — hvornår vil du rejse, hvor mange I er, og hvad I elsker at opleve?</div>
+
+<!-- CHAT -->
+<div class="chat-section" id="chat">
+  <div class="chat-inner reveal">
+    <div class="section-eye">Prøv det selv</div>
+    <h2 class="section-title">Find hoteller og fly i chatten</h2>
+    <p class="section-sub">Fortæl Roamo om din rejse — så finder AI'en konkrete hoteller og fly direkte i samtalen.</p>
+    <div class="chat-box">
+      <div class="chat-msgs" id="msgs">
+        <div class="msg ai">
+          <div class="av ai">R</div>
+          <div class="bbl">Hej! Jeg er Roamo 👋 Fortæl mig om din drømmerejse — hvornår vil du rejse, hvor mange I er, og hvad I elsker? Så finder jeg konkrete hoteller og fly til dig!</div>
+        </div>
+      </div>
+      <div class="sugs" id="sugs">
+        <button class="sug" onclick="useSug(this)">Familie på 4 til Kreta i juli</button>
+        <button class="sug" onclick="useSug(this)">Citytrip til Barcelona i september</button>
+        <button class="sug" onclick="useSug(this)">Romantisk tur til Paris i oktober</button>
+        <button class="sug" onclick="useSug(this)">Strand i Mallorca i august</button>
+      </div>
+      <div class="inp-row">
+        <textarea class="inp" id="inp" placeholder="Skriv din drøm her..." rows="1" onkeydown="handleKey(event)"></textarea>
+        <button class="snd" id="snd" onclick="send()">↑</button>
       </div>
     </div>
-    <div class="sugs" id="sugs">
-      <button class="sug" onclick="useSug(this)">Familieferie med børn</button>
-      <button class="sug" onclick="useSug(this)">Citytrip i Europa</button>
-      <button class="sug" onclick="useSug(this)">Strand og sol</button>
-      <button class="sug" onclick="useSug(this)">Eventyr og natur</button>
-    </div>
-    <div class="inp-row">
-      <textarea class="inp" id="inp" placeholder="Skriv din drøm her..." rows="1" onkeydown="handleKey(event)"></textarea>
-      <button class="snd" id="snd" onclick="send()">↑</button>
-    </div>
   </div>
 </div>
-<div class="footer">© 2026 Roamo · roamo.dk · Alle rettigheder forbeholdes</div>
+
+<div class="final-cta">
+  <h2 class="final-cta-title">Klar til din næste<br><em>drømmerejse?</em></h2>
+  <p class="final-cta-sub">10 minutter er alt hvad det tager. Roamo finder hoteller og fly til dig — helt gratis.</p>
+  <button class="final-cta-btn" onclick="document.getElementById('chat').scrollIntoView({behavior:'smooth'})">Find min rejse nu →</button>
+</div>
+
+<footer class="footer">
+  <div style="font-family:'Playfair Display',serif;font-size:1.1rem">Roamo<span style="color:var(--terra)">.</span></div>
+  <div>© 2026 Roamo · roamo.dk</div>
+  <div style="display:flex;gap:1rem"><a href="#" style="color:var(--muted);text-decoration:none">Privatlivspolitik</a><a href="#" style="color:var(--muted);text-decoration:none">Kontakt</a></div>
+</footer>
+
 <script>
-const imgs=document.querySelectorAll('.hero-bg img');
-const dots=document.querySelectorAll('.dot');
-let cur=0,timer;
-function goSlide(n){imgs[cur].classList.remove('active');dots[cur].classList.remove('active');cur=n;imgs[cur].classList.add('active');dots[cur].classList.add('active');clearInterval(timer);timer=setInterval(()=>goSlide((cur+1)%imgs.length),5000);}
-timer=setInterval(()=>goSlide((cur+1)%imgs.length),5000);
-const destinations=[
-  {name:'Santorini',img:'https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=400&q=80'},
-  {name:'Barcelona',img:'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=400&q=80'},
-  {name:'Bali',img:'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=400&q=80'},
-  {name:'Paris',img:'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=400&q=80'},
-  {name:'Marokko',img:'https://images.unsplash.com/photo-1539020140153-e479b8c22e70?w=400&q=80'},
-  {name:'Thailand',img:'https://images.unsplash.com/photo-1506665531195-3566af2b4dfa?w=400&q=80'},
-  {name:'Island',img:'https://images.unsplash.com/photo-1504829857797-ddff29c27927?w=400&q=80'},
-  {name:'Kroatien',img:'https://images.unsplash.com/photo-1555990793-da11153b2473?w=400&q=80'},
-];
-const track=document.getElementById('track');
-[...destinations,...destinations].forEach(d=>{const card=document.createElement('div');card.className='strip-card';card.innerHTML='<img src="'+d.img+'" alt="'+d.name+'" loading="lazy"><div class="strip-card-label">'+d.name+'</div>';card.onclick=()=>{document.getElementById('inp').value='Jeg drømmer om at rejse til '+d.name;document.getElementById('chat').scrollIntoView({behavior:'smooth'});};track.appendChild(card);});
-const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.15});
+// Hero slideshow
+const imgs=document.querySelectorAll('.hero-right img');
+let cur=0;
+setInterval(()=>{imgs[cur].classList.remove('active');cur=(cur+1)%imgs.length;imgs[cur].classList.add('active');},5000);
+
+// Reveal
+const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.1});
 document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// Hotel data per destination
+const hotelData={
+  'Kreta':[
+    {name:'Creta Maris Beach Resort',stars:'★★★★★',desc:'Direkte ved stranden i Hersonissos. Pool, spa og halvpension.',price:'Fra 1.245 kr/nat',img:'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=200&q=70'},
+    {name:'Minoas Palace Resort',stars:'★★★★',desc:'Familievenligt hotel i Bali, Kreta. Fantastisk udsigt over havet.',price:'Fra 890 kr/nat',img:'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=200&q=70'},
+  ],
+  'Barcelona':[
+    {name:'Hotel Arts Barcelona',stars:'★★★★★',desc:'Ikonisk tårnhotel ved stranden med udsigt over hele Barcelona.',price:'Fra 2.100 kr/nat',img:'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=200&q=70'},
+    {name:'Praktik Rambla',stars:'★★★★',desc:'Centralt på La Rambla. Moderne design og rooftop pool.',price:'Fra 1.050 kr/nat',img:'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=200&q=70'},
+  ],
+  'Paris':[
+    {name:'Hôtel Le Marais',stars:'★★★★',desc:'Charmerende boutique hotel i hjertet af Le Marais-kvarteret.',price:'Fra 1.400 kr/nat',img:'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=200&q=70'},
+    {name:'Citadines Saint-Germain',stars:'★★★★',desc:'Stilfuldt apartmenthotel på venstre bred. 10 min fra Eiffeltårnet.',price:'Fra 1.150 kr/nat',img:'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=200&q=70'},
+  ],
+  'Mallorca':[
+    {name:'Valparaiso Palace',stars:'★★★★★',desc:'Luksuriøst paladshotel over Palma med fantastisk pool og udsigt.',price:'Fra 1.800 kr/nat',img:'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=200&q=70'},
+    {name:'Hotel Rural Sa Bassa Rotja',stars:'★★★★',desc:'Romantisk landhotel i olivenlunde. Perfekt til par.',price:'Fra 1.200 kr/nat',img:'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=200&q=70'},
+  ],
+  'Bali':[
+    {name:'Four Seasons Jimbaran Bay',stars:'★★★★★',desc:'Villaer med privat pool direkte over Jimbaran Bugten.',price:'Fra 3.200 kr/nat',img:'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=200&q=70'},
+    {name:'Alaya Resort Ubud',stars:'★★★★',desc:'Fredfyldt resort omgivet af risterrasser i kulturelle Ubud.',price:'Fra 1.600 kr/nat',img:'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=200&q=70'},
+  ],
+};
+
+const flightData={
+  'Kreta':[
+    {from:'CPH',fromCity:'København',to:'HER',toCity:'Heraklion',duration:'3t 20m',airline:'SAS / Norwegian',price:'Fra 1.450 kr t/r'},
+    {from:'CPH',fromCity:'København',to:'CHQ',toCity:'Chania',duration:'3t 35m',airline:'Norwegian',price:'Fra 1.680 kr t/r'},
+  ],
+  'Barcelona':[
+    {from:'CPH',fromCity:'København',to:'BCN',toCity:'Barcelona',duration:'2t 45m',airline:'SAS / Vueling',price:'Fra 1.200 kr t/r'},
+  ],
+  'Paris':[
+    {from:'CPH',fromCity:'København',to:'CDG',toCity:'Paris CDG',duration:'2t 10m',airline:'Air France / SAS',price:'Fra 1.100 kr t/r'},
+  ],
+  'Mallorca':[
+    {from:'CPH',fromCity:'København',to:'PMI',toCity:'Palma',duration:'2t 50m',airline:'Norwegian / TUI',price:'Fra 1.350 kr t/r'},
+  ],
+  'Bali':[
+    {from:'CPH',fromCity:'København',to:'DPS',toCity:'Denpasar',duration:'16t 30m',airline:'KLM via Amsterdam',price:'Fra 5.800 kr t/r'},
+  ],
+};
+
+function getDefaultHotels(dest){
+  return hotelData[dest]||[{name:'Hoteller i '+dest,stars:'★★★★',desc:'Se de bedste hoteller og sammenlign priser på Booking.com.',price:'Se priser',img:'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=200&q=70'}];
+}
+function getDefaultFlights(dest){
+  return flightData[dest]||[{from:'CPH',fromCity:'København',to:dest.substring(0,3).toUpperCase(),toCity:dest,duration:'Varierer',airline:'Flere flyselskaber',price:'Se priser'}];
+}
+
+function buildHotelCard(h,dest,delay){
+  const d=encodeURIComponent(dest);
+  const card=document.createElement('div');card.className='hotel-card';card.style.animationDelay=delay+'s';
+  card.innerHTML=`
+    <div class="hotel-card-inner">
+      <img class="hotel-img" src="${h.img}" alt="${h.name}">
+      <div class="hotel-body">
+        <div>
+          <div class="hotel-top"><div class="hotel-name">${h.name}</div><div class="hotel-stars">${h.stars}</div></div>
+          <div class="hotel-desc">${h.desc}</div>
+        </div>
+        <div class="hotel-footer">
+          <div class="hotel-price">${h.price}</div>
+          <a class="hotel-btn" href="https://www.booking.com/search.html?ss=${d}+${encodeURIComponent(h.name)}" target="_blank" rel="noopener">Se hotel →</a>
+        </div>
+      </div>
+    </div>`;
+  return card;
+}
+
+function buildFlightCard(f,dest,delay){
+  const card=document.createElement('div');card.className='flight-card';card.style.animationDelay=delay+'s';
+  const url=`https://www.skyscanner.dk/transport/flyvninger/cph/${encodeURIComponent(dest.substring(0,3).toLowerCase())}/`;
+  card.innerHTML=`
+    <div class="flight-row">
+      <div class="flight-from"><div class="flight-code">${f.from}</div><div class="flight-city">${f.fromCity}</div></div>
+      <div class="flight-middle">
+        <div class="flight-line"><div class="flight-dot"></div><div class="flight-dash"></div><span class="flight-plane">✈</span><div class="flight-dash"></div><div class="flight-dot"></div></div>
+        <div class="flight-duration">${f.duration}</div>
+      </div>
+      <div class="flight-to"><div class="flight-code">${f.to}</div><div class="flight-city">${f.toCity}</div></div>
+    </div>
+    <div class="flight-footer">
+      <div class="flight-airline">${f.airline}</div>
+      <div class="flight-price">${f.price}</div>
+      <a class="flight-btn" href="${url}" target="_blank" rel="noopener">Book fly →</a>
+    </div>`;
+  return card;
+}
+
+function buildRecommendations(dest){
+  const container=document.createElement('div');container.className='rec-cards';
+  const ht=document.createElement('div');ht.className='rec-section-title';ht.textContent='🏨 Anbefalede hoteller i '+dest;
+  container.appendChild(ht);
+  getDefaultHotels(dest).forEach((h,i)=>container.appendChild(buildHotelCard(h,dest,i*0.1)));
+  const ft=document.createElement('div');ft.className='rec-section-title';ft.style.marginTop='0.5rem';ft.textContent='✈️ Fly fra København til '+dest;
+  container.appendChild(ft);
+  getDefaultFlights(dest).forEach((f,i)=>container.appendChild(buildFlightCard(f,dest,i*0.1)));
+  return container;
+}
+
+function extractDest(text){
+  const m=text.match(/\b(Kreta|Mallorca|Barcelona|Paris|Rom|London|Amsterdam|Lissabon|Tenerife|Gran Canaria|Ibiza|Kroatien|Thailand|Bali|Dubai|New York|Tokyo|Prag|Wien|Budapest|Berlin|Marokko|Tyrkiet|Antalya|Istanbul|Malta|Cypern|Sicilien|Island|Santorini)\b/i);
+  return m?m[1]:null;
+}
+
+// CHAT
 const msgsEl=document.getElementById('msgs');
 const inpEl=document.getElementById('inp');
 const sndBtn=document.getElementById('snd');
 let history=[];
+let turn=0;
+
+const demoResponses=[
+  {text:"Super! Lad mig finde de bedste muligheder til dig. Hvad er dit omtrentlige budget per person, og foretrækker I strandhotel eller mere kulturelle omgivelser?",dest:null},
+  {text:"Perfekt — her er mine anbefalinger til dig! Jeg har fundet to fantastiske hoteller og fly direkte fra København:",dest:null,usePrev:true},
+];
+
+let pendingDest=null;
+
 function useSug(btn){inpEl.value=btn.textContent;document.getElementById('sugs').style.display='none';send();}
 function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}}
-function addUserMsg(text){const wrap=document.createElement('div');wrap.className='msg user';const av=document.createElement('div');av.className='av user';av.textContent='D';const bbl=document.createElement('div');bbl.className='bbl';bbl.textContent=text;wrap.appendChild(av);wrap.appendChild(bbl);msgsEl.appendChild(wrap);msgsEl.scrollTop=msgsEl.scrollHeight;}
-function buildCards(dest){const d=encodeURIComponent(dest);const items=[{bg:'#003580',l:'B',title:'Booking.com',sub:'Find hotel i '+dest,url:'https://www.booking.com/search.html?ss='+d,btn:'Se hoteller'},{bg:'#0770e3',l:'S',title:'Skyscanner',sub:'Fly til '+dest,url:'https://www.skyscanner.dk/transport/flyvninger/dk/'+d+'/',btn:'Find fly'},{bg:'#FF5A33',l:'G',title:'GetYourGuide',sub:'Oplevelser i '+dest,url:'https://www.getyourguide.dk/s/?q='+d,btn:'Se oplevelser'},{bg:'#00A67E',l:'G',title:'Gouda Forsikring',sub:'Tryg på hele rejsen',url:'https://www.gouda.dk',btn:'Få tilbud'}];const container=document.createElement('div');container.className='booking-cards';items.forEach((c,i)=>{const card=document.createElement('div');card.className='bcard';card.style.animationDelay=(i*0.08)+'s';const left=document.createElement('div');left.className='bcard-left';const icon=document.createElement('div');icon.className='bcard-icon';icon.style.background=c.bg;icon.textContent=c.l;const txt=document.createElement('div');txt.innerHTML='<div class="bcard-title">'+c.title+'</div><div class="bcard-sub">'+c.sub+'</div>';left.appendChild(icon);left.appendChild(txt);const btn=document.createElement('a');btn.className='bcard-btn';btn.href=c.url;btn.target='_blank';btn.rel='noopener noreferrer';btn.textContent=c.btn;card.appendChild(left);card.appendChild(btn);container.appendChild(card);});return container;}
-function extractDest(text){const m=text.match(/\b(Kreta|Mallorca|Barcelona|Paris|Rom|London|Amsterdam|Lissabon|Lisboa|Tenerife|Gran Canaria|Fuerteventura|Ibiza|Kroatien|Grækenland|Italien|Spanien|Portugal|Frankrig|Thailand|Bali|Dubai|New York|Tokyo|Prag|Wien|Budapest|Berlin|Marrakesh|Marokko|Tyrkiet|Antalya|Istanbul|Malta|Cypern|Sicilien|Sardinien|Montenegro|Schweiz|Østrig|Norge|Sverige|Finland|Island|Santorini)\b/i);return m?m[1]:null;}
-async function send(){const text=inpEl.value.trim();if(!text)return;document.getElementById('sugs').style.display='none';inpEl.value='';sndBtn.disabled=true;addUserMsg(text);history.push({role:'user',content:text});const wrap=document.createElement('div');wrap.className='msg ai';const av=document.createElement('div');av.className='av ai';av.textContent='R';const bbl=document.createElement('div');bbl.className='bbl typing';bbl.textContent='Tænker';wrap.appendChild(av);wrap.appendChild(bbl);msgsEl.appendChild(wrap);msgsEl.scrollTop=msgsEl.scrollHeight;try{const res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:history})});const data=await res.json();const reply=data.reply||'Noget gik galt — prøv igen.';bbl.textContent=reply;bbl.classList.remove('typing');history.push({role:'assistant',content:reply});const dest=extractDest(reply);if(dest){wrap.appendChild(buildCards(dest));}}catch(e){bbl.textContent='Noget gik galt — prøv igen.';bbl.classList.remove('typing');}sndBtn.disabled=false;msgsEl.scrollTop=msgsEl.scrollHeight;}
+
+function addUserMsg(text){
+  const wrap=document.createElement('div');wrap.className='msg user';
+  const av=document.createElement('div');av.className='av user';av.textContent='D';
+  const bbl=document.createElement('div');bbl.className='bbl';bbl.textContent=text;
+  wrap.appendChild(av);wrap.appendChild(bbl);
+  msgsEl.appendChild(wrap);msgsEl.scrollTop=msgsEl.scrollHeight;
+}
+
+function send(){
+  const text=inpEl.value.trim();if(!text)return;
+  document.getElementById('sugs').style.display='none';
+  inpEl.value='';sndBtn.disabled=true;
+  addUserMsg(text);
+
+  // detect destination from user message
+  const userDest=extractDest(text);
+  if(userDest)pendingDest=userDest;
+
+  const r=demoResponses[Math.min(turn,demoResponses.length-1)];
+  turn++;
+
+  setTimeout(()=>{
+    const wrap=document.createElement('div');wrap.className='msg ai';
+    const av=document.createElement('div');av.className='av ai';av.textContent='R';
+    const bbl=document.createElement('div');bbl.className='bbl';
+
+    const destToUse=pendingDest||(text.match(/\b(Kreta|Mallorca|Barcelona|Paris|Bali)\b/i)||['Kreta'])[0];
+    const replyText=r.usePrev
+      ?'Perfekt! Her er mine anbefalinger til '+destToUse+' — to tophoteller og direkte fly fra København:'
+      :r.text;
+
+    bbl.textContent=replyText;
+    wrap.appendChild(av);wrap.appendChild(bbl);
+
+    if(r.usePrev||turn>=2){
+      wrap.appendChild(buildRecommendations(destToUse));
+    }
+    msgsEl.appendChild(wrap);
+    msgsEl.scrollTop=msgsEl.scrollHeight;
+    sndBtn.disabled=false;
+  },1000);
+}
 </script>
 </body>
 </html>
