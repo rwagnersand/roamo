@@ -112,4 +112,131 @@
     <h1 class="hero-title">Planlæg din drømmerejse<br><em>på 10 minutter</em></h1>
     <p class="hero-sub">Fortæl Roamo hvad du drømmer om. Vores AI finder hoteller og fly til dig — til alle destinationer i verden.</p>
     <button class="hero-cta" onclick="document.getElementById('chat').scrollIntoView({behavior:'smooth'})">Planlæg min rejse gratis →</button>
-    <p class="hero
+    <p class="hero-cta-sub">✓ Helt gratis &nbsp;·&nbsp; ✓ Alle destinationer &nbsp;·&nbsp; ✓ Klar på 10 min</p>
+    <div class="hero-stats">
+      <div><div class="stat-num">2.400+</div><div class="stat-label">Tilfredse rejsende</div></div>
+      <div><div class="stat-num">4.8★</div><div class="stat-label">Gennemsnitlig rating</div></div>
+      <div><div class="stat-num">∞</div><div class="stat-label">Destinationer</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=1200&q=80" alt="Santorini" class="active">
+    <img src="https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=1200&q=80" alt="Barcelona">
+    <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1200&q=80" alt="Bali">
+    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80" alt="Natur">
+  </div>
+</section>
+<div class="proof-bar">
+  <div class="proof-item">🏨 Booking.com partner</div>
+  <div class="proof-item">✈️ Skyscanner partner</div>
+  <div class="proof-item">🎟️ GetYourGuide partner</div>
+  <div class="proof-item">🌍 Alle destinationer</div>
+  <div class="proof-item">🔒 GDPR-sikret</div>
+</div>
+<div class="chat-section" id="chat">
+  <div class="chat-inner reveal">
+    <div class="section-eye">Prøv det selv</div>
+    <h2 class="section-title">Find hoteller og fly til alle destinationer</h2>
+    <p class="section-sub">Nævn en destination — så finder Roamo konkrete hoteller og fly direkte i chatten. Tokyo, Cape Town, New York — det hele.</p>
+    <div class="chat-box">
+      <div class="chat-msgs" id="msgs">
+        <div class="msg ai"><div class="av ai">R</div><div class="bbl">Hej! Jeg er Roamo 👋 Nævn en destination du drømmer om — så finder jeg hoteller og fly til dig med det samme. Det kan være alt fra Kreta til Tokyo!</div></div>
+      </div>
+      <div class="sugs" id="sugs">
+        <button class="sug" onclick="useSug(this)">Familie til Kreta i sommer</button>
+        <button class="sug" onclick="useSug(this)">Par til Tokyo i foråret</button>
+        <button class="sug" onclick="useSug(this)">Venner til New York</button>
+        <button class="sug" onclick="useSug(this)">Romantisk tur til Paris</button>
+      </div>
+      <div class="inp-row">
+        <textarea class="inp" id="inp" placeholder="Skriv din destination her..." rows="1" onkeydown="handleKey(event)"></textarea>
+        <button class="snd" id="snd" onclick="send()">↑</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="final-cta">
+  <h2 class="final-cta-title">Klar til din næste<br><em>drømmerejse?</em></h2>
+  <p class="final-cta-sub">Roamo finder hoteller og fly til alle destinationer i verden — helt gratis.</p>
+  <button class="final-cta-btn" onclick="document.getElementById('chat').scrollIntoView({behavior:'smooth'})">Find min rejse nu →</button>
+</div>
+<footer class="footer">
+  <div style="font-family:'Playfair Display',serif;font-size:1.1rem">Roamo<span style="color:var(--terra)">.</span></div>
+  <div>© 2026 Roamo · roamo.dk</div>
+  <div style="display:flex;gap:1rem"><a href="#" style="color:var(--muted);text-decoration:none">Privatlivspolitik</a><a href="#" style="color:var(--muted);text-decoration:none">Kontakt</a></div>
+</footer>
+<script>
+const imgs=document.querySelectorAll('.hero-right img');
+let cur=0;
+setInterval(()=>{imgs[cur].classList.remove('active');cur=(cur+1)%imgs.length;imgs[cur].classList.add('active');},5000);
+const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+const msgsEl=document.getElementById('msgs');
+const inpEl=document.getElementById('inp');
+const sndBtn=document.getElementById('snd');
+let history=[];
+function useSug(btn){inpEl.value=btn.textContent;document.getElementById('sugs').style.display='none';send();}
+function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}}
+function addUserMsg(text){const wrap=document.createElement('div');wrap.className='msg user';const av=document.createElement('div');av.className='av user';av.textContent='D';const bbl=document.createElement('div');bbl.className='bbl';bbl.textContent=text;wrap.appendChild(av);wrap.appendChild(bbl);msgsEl.appendChild(wrap);msgsEl.scrollTop=msgsEl.scrollHeight;}
+function starsStr(n){return '★'.repeat(Math.round(n))+'☆'.repeat(5-Math.round(n));}
+function buildRecs(data){
+  const dest=data.destination;
+  const iata=(data.iataCode||dest.substring(0,3)).toUpperCase();
+  const skyUrl='https://www.skyscanner.dk/transport/flyvninger/cph/'+iata.toLowerCase()+'/';
+  const gygUrl='https://www.getyourguide.dk/s/?q='+encodeURIComponent(dest);
+  const container=document.createElement('div');container.className='rec-cards';
+  const intro=document.createElement('div');
+  intro.style.cssText='font-size:0.85rem;color:var(--muted);line-height:1.6;font-style:italic;padding:0.25rem 0';
+  intro.textContent=data.intro||'';container.appendChild(intro);
+  const hl=document.createElement('div');hl.className='rec-label';hl.textContent='🏨 Anbefalede hoteller';container.appendChild(hl);
+  (data.hotels||[]).forEach((h,i)=>{
+    const card=document.createElement('div');card.className='hotel-card';card.style.animationDelay=(i*0.08)+'s';
+    const hotelSearch='https://www.booking.com/search.html?ss='+encodeURIComponent(h.name+' '+dest);
+    card.innerHTML=`<div class="hotel-inner"><div class="hotel-img" style="background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:1.5rem">🏨</div><div class="hotel-body"><div><div class="hotel-top"><div class="hotel-name">${h.name}</div><div class="hotel-stars">${starsStr(h.stars)}</div></div><div class="hotel-desc">${h.desc}${h.area?' · '+h.area:''}</div></div><div class="hotel-footer"><div class="hotel-price">${h.price}</div><a class="hotel-btn" href="${hotelSearch}" target="_blank" rel="noopener">Se hotel →</a></div></div></div>`;
+    container.appendChild(card);
+  });
+  const fl=document.createElement('div');fl.className='rec-label';fl.style.marginTop='0.5rem';fl.textContent='✈️ Fly fra København';container.appendChild(fl);
+  (data.flights||[]).forEach((f,i)=>{
+    const card=document.createElement('div');card.className='flight-card';card.style.animationDelay=(i*0.1)+'s';
+    card.innerHTML=`<div class="flight-row"><div style="text-align:center"><div class="flight-code">${f.from}</div><div class="flight-city">${f.fromCity}</div></div><div class="flight-mid"><div class="flight-line"><div class="flight-dot"></div><div class="flight-dash"></div><span style="font-size:0.8rem">✈</span><div class="flight-dash"></div><div class="flight-dot"></div></div><div class="flight-dur">${f.duration}</div></div><div style="text-align:center"><div class="flight-code">${f.to}</div><div class="flight-city">${f.toCity}</div></div></div><div class="flight-foot"><div class="flight-airline">${f.airline}</div><div class="flight-price">${f.price}</div><a class="flight-btn" href="${skyUrl}" target="_blank" rel="noopener">Book fly →</a></div>`;
+    container.appendChild(card);
+  });
+  const gl=document.createElement('div');gl.className='rec-label';gl.style.marginTop='0.5rem';gl.textContent='🎟️ Oplevelser';container.appendChild(gl);
+  const gc=document.createElement('div');gc.style.cssText='background:#fff;border:1px solid var(--brd);border-radius:0.85rem;padding:0.7rem 1rem;display:flex;justify-content:space-between;align-items:center;font-size:0.85rem';
+  gc.innerHTML=`<div><div style="font-weight:500">Oplevelser i ${dest}</div><div style="font-size:0.75rem;color:var(--muted)">Tours, aktiviteter og guidede ture</div></div><a style="background:#FF5A33;color:#fff;padding:0.22rem 0.7rem;border-radius:2rem;font-size:0.7rem;font-weight:500;text-decoration:none;white-space:nowrap;font-family:'DM Sans',sans-serif" href="${gygUrl}" target="_blank" rel="noopener">Se oplevelser →</a>`;
+  container.appendChild(gc);
+  return container;
+}
+async function send(){
+  const text=inpEl.value.trim();if(!text)return;
+  document.getElementById('sugs').style.display='none';
+  inpEl.value='';sndBtn.disabled=true;
+  addUserMsg(text);
+  history.push({role:'user',content:text});
+  const wrap=document.createElement('div');wrap.className='msg ai';
+  const av=document.createElement('div');av.className='av ai';av.textContent='R';
+  const bbl=document.createElement('div');bbl.className='bbl typing';bbl.textContent='Finder hoteller og fly';
+  wrap.appendChild(av);wrap.appendChild(bbl);
+  msgsEl.appendChild(wrap);msgsEl.scrollTop=msgsEl.scrollHeight;
+  try{
+    const r1=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:history,mode:'chat'})});
+    const d1=await r1.json();
+    const reply=d1.reply||'';
+    bbl.textContent=reply;bbl.classList.remove('typing');
+    history.push({role:'assistant',content:reply});
+    const recWrap=document.createElement('div');recWrap.className='msg ai';
+    const recAv=document.createElement('div');recAv.className='av ai';recAv.textContent='R';
+    const recBbl=document.createElement('div');recBbl.className='bbl typing';recBbl.textContent='Søger hoteller og fly';
+    recWrap.appendChild(recAv);recWrap.appendChild(recBbl);
+    msgsEl.appendChild(recWrap);msgsEl.scrollTop=msgsEl.scrollHeight;
+    const r2=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:'Find hoteller og fly til: '+text}],mode:'recommend'})});
+    const d2=await r2.json();
+    if(d2.type==='recommendations'&&d2.data){recBbl.remove();recWrap.appendChild(buildRecs(d2.data));}
+    else{recBbl.textContent='Prøv at specificere din destination.';recBbl.classList.remove('typing');}
+    msgsEl.scrollTop=msgsEl.scrollHeight;
+  }catch(e){bbl.textContent='Noget gik galt — prøv igen.';bbl.classList.remove('typing');}
+  sndBtn.disabled=false;
+}
+</script>
+</body>
+</html>
