@@ -441,7 +441,7 @@ async function send() {
   inpEl.value = '';
   sndBtn.disabled = true;
   addUserMsg(text);
-  chatHistorypush({ role: 'user', content: text });
+  chatHistory.push({ role: 'user', content: text });
 
   var wrap = document.createElement('div'); wrap.className = 'msg ai';
   var av = document.createElement('div'); av.className = 'av ai'; av.textContent = 'R';
@@ -450,7 +450,7 @@ async function send() {
   msgsEl.appendChild(wrap); msgsEl.scrollTop = msgsEl.scrollHeight;
 
   try {
-    var r1 = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: history, mode: 'chat' }) });
+    var r1 = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: chatHistory mode: 'chat' }) });
     var d1 = await r1.json();
     var reply = d1.reply || '';
 
@@ -458,7 +458,7 @@ async function send() {
     var cleanReply = reply.replace('[KLAR_TIL_ANBEFALING]', '').trim();
     bbl.innerHTML = formatReply(cleanReply);
     bbl.classList.remove('typing');
-    chatHistorypush({ role: 'assistant', content: cleanReply });
+    chatHistory.push({ role: 'assistant', content: cleanReply });
 
     if (hasSignal) {
       var rw = document.createElement('div'); rw.className = 'msg ai';
