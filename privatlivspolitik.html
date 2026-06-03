@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privatlivspolitik – Roamo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap');
+
+  :root {
+    --bg: #1a1610;
+    --surface: #221e16;
+    --border: #332e22;
+    --accent: #d4622a;
+    --accent-soft: rgba(212,98,42,0.12);
+    --accent-light: #e8956a;
+    --text: #f0ebe0;
+    --muted: #9a9080;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    line-height: 1.8;
+    min-height: 100vh;
+  }
+
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+
+  .logo span { color: var(--accent); }
+
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 4rem 2rem 6rem;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    background: var(--accent-soft);
+    padding: 0.3rem 0.75rem;
+    border-radius: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 0.75rem;
+    color: var(--text);
+  }
+
+  .meta {
+    color: var(--muted);
+    font-size: 0.875rem;
+    margin-bottom: 3.5rem;
+    padding-bottom: 3.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  section { margin-bottom: 2.75rem; }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--accent-light);
+    margin-bottom: 0.9rem;
+  }
+
+  p {
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0.5rem 0 0.75rem 0;
+  }
+
+  ul li {
+    color: var(--muted);
+    font-size: 0.95rem;
+    padding: 0.3rem 0 0.3rem 1.25rem;
+    position: relative;
+  }
+
+  ul li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  a { color: var(--accent-light); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .callout {
+    background: var(--accent-soft);
+    border: 1px solid rgba(212,98,42,0.25);
+    border-left: 3px solid var(--accent);
+    border-radius: 0.5rem;
+    padding: 1.25rem 1.5rem;
+    margin-top: 1rem;
+  }
+
+  .callout p { margin: 0; }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 3rem 0;
+  }
+
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.8rem;
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="/">Roamo<span>.</span></a>
+</header>
+
+<main>
+  <div class="tag">Juridisk</div>
+  <h1>Privatlivspolitik</h1>
+  <p class="meta">Gælder fra: juni 2025 &nbsp;·&nbsp; Sidst opdateret: juni 2025</p>
+
+  <section>
+    <h2>Hvem er vi</h2>
+    <p>Roamo er en dansk AI-drevet rejseassistent der hjælper danskere med at planlægge drømmerejser. Roamo drives som personlig virksomhed og kan kontaktes på <a href="mailto:rico@roamo.dk">rico@roamo.dk</a>.</p>
+  </section>
+
+  <section>
+    <h2>Hvilke data indsamler vi</h2>
+    <p>Roamo indsamler så få data som muligt. Følgende kan behandles når du bruger tjenesten:</p>
+    <ul>
+      <li>Tekniske logs (IP-adresse, browsertype, tidsstempel) — automatisk via vores hostingudbyder Vercel</li>
+      <li>De rejseoplysninger du indtaster i chatten (destination, datoer, antal personer, budget) — disse sendes til vores AI-model for at generere anbefalinger, men gemmes ikke permanent</li>
+    </ul>
+    <p>Vi beder dig aldrig om navn, e-mail eller betalingsoplysninger.</p>
+  </section>
+
+  <section>
+    <h2>Cookies og analyseredskaber</h2>
+    <p>Roamo anvender i øjeblikket ikke tracking-cookies eller analyseredskaber. Vi forbeholder os retten til at tilføje anonymiserede analyseredskaber (f.eks. Google Analytics eller Plausible) i fremtiden. Hvis det sker, vil denne politik blive opdateret, og du vil blive informeret via et cookiebanner.</p>
+  </section>
+
+  <section>
+    <h2>Affiliate-links og tredjeparter</h2>
+    <p>Roamo anbefaler rejseprodukter via affiliate-links. Når du klikker på et link og foretager en booking, modtager Roamo en provision fra partneren. Vores nuværende partnere inkluderer:</p>
+    <ul>
+      <li>GetYourGuide (oplevelser og aktiviteter)</li>
+      <li>Booking.com (hoteller) — afventer godkendelse</li>
+      <li>Adtraction-netværket (pakkerejser m.fl.) — afventer godkendelse</li>
+    </ul>
+    <p>Disse tredjeparter har egne privatlivspolitikker og kan sætte egne cookies når du besøger deres sider. Roamo er ikke ansvarlig for tredjeparters databehandling.</p>
+  </section>
+
+  <section>
+    <h2>Formål med databehandling</h2>
+    <p>De tekniske logs behandles udelukkende med det formål at sikre driften og sikkerheden af tjenesten. Dine rejseoplysninger i chatten behandles for at levere dig relevante rejseanbefalinger via AI.</p>
+    <p>Det juridiske grundlag for behandlingen er <em>legitim interesse</em> (GDPR artikel 6, stk. 1, litra f) for tekniske logs, og <em>opfyldelse af den tjeneste du beder om</em> (artikel 6, stk. 1, litra b) for chatdata.</p>
+  </section>
+
+  <section>
+    <h2>Deling af data</h2>
+    <p>Vi sælger ikke dine data. Data deles kun med:</p>
+    <ul>
+      <li>Anthropic (AI-udbyder) — chatindhold sendes til Claude API for at generere svar. Anthropic behandler data i overensstemmelse med deres <a href="https://www.anthropic.com/privacy" target="_blank">privatlivspolitik</a></li>
+      <li>Vercel (hostingudbyder) — tekniske logs. Se <a href="https://vercel.com/legal/privacy-policy" target="_blank">Vercels privatlivspolitik</a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Dine rettigheder</h2>
+    <p>Under GDPR har du ret til at:</p>
+    <ul>
+      <li>Få indsigt i hvilke data vi behandler om dig</li>
+      <li>Få forkerte data rettet</li>
+      <li>Få data slettet ("retten til at blive glemt")</li>
+      <li>Gøre indsigelse mod behandlingen</li>
+      <li>Klage til Datatilsynet på <a href="https://www.datatilsynet.dk" target="_blank">datatilsynet.dk</a></li>
+    </ul>
+    <div class="callout">
+      <p>Kontakt os på <a href="mailto:rico@roamo.dk">rico@roamo.dk</a> for at udøve dine rettigheder. Vi svarer inden for 30 dage.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Opdateringer til denne politik</h2>
+    <p>Vi kan opdatere denne privatlivspolitik når tjenesten udvikler sig. Den gældende version findes altid på roamo.dk/privatlivspolitik. Væsentlige ændringer kommunikeres tydeligt på hjemmesiden.</p>
+  </section>
+
+</main>
+
+<footer>
+  © 2025 Roamo &nbsp;·&nbsp; <a href="mailto:rico@roamo.dk">rico@roamo.dk</a>
+</footer>
+
+</body>
+</html>
