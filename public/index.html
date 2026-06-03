@@ -347,6 +347,7 @@ var msgsEl = document.getElementById('msgs');
 var inpEl = document.getElementById('inp');
 var sndBtn = document.getElementById('snd');
 var chatHistory = [];
+
 function useSug(btn) {
   inpEl.value = btn.textContent;
   document.getElementById('sugs').style.display = 'none';
@@ -450,7 +451,7 @@ async function send() {
   msgsEl.appendChild(wrap); msgsEl.scrollTop = msgsEl.scrollHeight;
 
   try {
-    var r1 = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: chatHistory mode: 'chat' }) });
+    var r1 = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: chatHistory, mode: 'chat' }) });
     var d1 = await r1.json();
     var reply = d1.reply || '';
 
@@ -467,7 +468,7 @@ async function send() {
       rw.appendChild(ra); rw.appendChild(rb);
       msgsEl.appendChild(rw); msgsEl.scrollTop = msgsEl.scrollHeight;
 
-      var allText = chatHistoryfilter(function(m) { return m.role === 'user'; }).map(function(m) { return m.content; }).join(' ');
+      var allText = chatHistory.filter(function(m) { return m.role === 'user'; }).map(function(m) { return m.content; }).join(' ');
       var destMatch = allText.match(/\b(Malaga|Kreta|Mallorca|Barcelona|Paris|Rom|London|Amsterdam|Lissabon|Tenerife|Gran Canaria|Ibiza|Kroatien|Thailand|Bali|Dubai|New York|Tokyo|Prag|Wien|Budapest|Berlin|Marokko|Tyrkiet|Antalya|Istanbul|Malta|Cypern|Sicilien|Island|Santorini|Alicante|Madrid|Athen|Rhodos|Korfu|Dubrovnik|Phuket|Singapore|Sydney|Cape Town|Cancun|Miami|Los Angeles|Chicago|San Francisco|Toronto|Lisboa|Lanzarote|Fuerteventura|Mykonos|Split|Zadar|Palma)\b/i);
       var foundDest = destMatch ? destMatch[1] : text;
 
