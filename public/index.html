@@ -346,8 +346,7 @@ destinations.concat(destinations).forEach(function(d) {
 var msgsEl = document.getElementById('msgs');
 var inpEl = document.getElementById('inp');
 var sndBtn = document.getElementById('snd');
-var history = [];
-
+var chatHistory = [];
 function useSug(btn) {
   inpEl.value = btn.textContent;
   document.getElementById('sugs').style.display = 'none';
@@ -442,7 +441,7 @@ async function send() {
   inpEl.value = '';
   sndBtn.disabled = true;
   addUserMsg(text);
-  history.push({ role: 'user', content: text });
+  chatHistorypush({ role: 'user', content: text });
 
   var wrap = document.createElement('div'); wrap.className = 'msg ai';
   var av = document.createElement('div'); av.className = 'av ai'; av.textContent = 'R';
@@ -459,7 +458,7 @@ async function send() {
     var cleanReply = reply.replace('[KLAR_TIL_ANBEFALING]', '').trim();
     bbl.innerHTML = formatReply(cleanReply);
     bbl.classList.remove('typing');
-    history.push({ role: 'assistant', content: cleanReply });
+    chatHistorypush({ role: 'assistant', content: cleanReply });
 
     if (hasSignal) {
       var rw = document.createElement('div'); rw.className = 'msg ai';
@@ -468,7 +467,7 @@ async function send() {
       rw.appendChild(ra); rw.appendChild(rb);
       msgsEl.appendChild(rw); msgsEl.scrollTop = msgsEl.scrollHeight;
 
-      var allText = history.filter(function(m) { return m.role === 'user'; }).map(function(m) { return m.content; }).join(' ');
+      var allText = chatHistoryfilter(function(m) { return m.role === 'user'; }).map(function(m) { return m.content; }).join(' ');
       var destMatch = allText.match(/\b(Malaga|Kreta|Mallorca|Barcelona|Paris|Rom|London|Amsterdam|Lissabon|Tenerife|Gran Canaria|Ibiza|Kroatien|Thailand|Bali|Dubai|New York|Tokyo|Prag|Wien|Budapest|Berlin|Marokko|Tyrkiet|Antalya|Istanbul|Malta|Cypern|Sicilien|Island|Santorini|Alicante|Madrid|Athen|Rhodos|Korfu|Dubrovnik|Phuket|Singapore|Sydney|Cape Town|Cancun|Miami|Los Angeles|Chicago|San Francisco|Toronto|Lisboa|Lanzarote|Fuerteventura|Mykonos|Split|Zadar|Palma)\b/i);
       var foundDest = destMatch ? destMatch[1] : text;
 
