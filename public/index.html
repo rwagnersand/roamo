@@ -375,9 +375,10 @@ function buildRecs(data) {
   var iata = (data.iataCode || dest.substring(0, 3)).toUpperCase();
   var skyUrl = 'https://www.skyscanner.dk/transport/flyvninger/cph/' + iata.toLowerCase() + '/';
   var gygUrl = 'https://www.getyourguide.dk/s/?q=' + encodeURIComponent(dest);
-  var tuiUrl = 'https://www.tui.dk/search/?q=' + encodeURIComponent(dest);
-  var spiesUrl = 'https://www.spies.dk/rejser/' + encodeURIComponent(dest.toLowerCase());
-  var tjareborgUrl = 'https://www.tjaereborg.dk/rejser/' + encodeURIComponent(dest.toLowerCase());
+ var destSlug = dest.toLowerCase().replace(/\s+/g, '-').replace(/[æ]/g,'ae').replace(/[ø]/g,'oe').replace(/[å]/g,'aa');
+var tuiUrl = 'https://www.tui.dk/rejse/spanien/costa-del-sol/' + destSlug + '/';
+var spiesUrl = 'https://www.spies.dk/find-rejse#destination=' + encodeURIComponent(dest);
+var tjareborgUrl = 'https://www.tjaereborg.dk/s/' + destSlug + '/';
 
   var container = document.createElement('div'); container.className = 'rec-cards';
 
