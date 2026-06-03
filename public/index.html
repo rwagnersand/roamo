@@ -373,7 +373,7 @@ function starsStr(n) {
 function buildRecs(data) {
   var dest = data.destination;
   var iata = (data.iataCode || dest.substring(0, 3)).toUpperCase();
-var skyUrl = 'https://www.skyscanner.dk/transport/flyvninger/cph/' + iata.toLowerCase() + '/?adultsv2=2&cabinclass=economy&childrenv2=&inboundaltsenabled=false&outboundaltsenabled=false&preferdirects=false&ref=home&rtn=1';  var gygUrl = 'https://www.getyourguide.dk/s/?q=' + encodeURIComponent(dest);
+var skyUrl = 'https://www.skyscanner.dk/transport/flyvninger/cph/' + iata.toLowerCase() + '/?adultsv2=2&cabinclass=economy&childrenv2=&inboundaltsenabled=false&outboundaltsenabled=false&preferdirects=false&ref=home&rtn=1';  var gygUrl = 'https://www.getyourguide.com/s/?partner_id=YGFQBEY&utm_medium=online_publisher&q=' + encodeURIComponent(dest);
  var destSlug = dest.toLowerCase().replace(/\s+/g, '-').replace(/[æ]/g,'ae').replace(/[ø]/g,'oe').replace(/[å]/g,'aa');
 var tuiUrl = 'https://www.tui.dk/rejse/spanien/costa-del-sol/' + destSlug + '/';
 var spiesUrl = 'https://www.spies.dk/find-rejse#destination=' + encodeURIComponent(dest);
