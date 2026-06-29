@@ -393,7 +393,6 @@ function starsStr(n) {
 function buildRecs(data) {
   var dest = data.destination;
   var iata = (data.iataCode || dest.substring(0, 3)).toUpperCase();
-var skyUrl = 'https://www.skyscanner.dk/transport/flyvninger/cph/' + iata.toLowerCase() + '/?adultsv2=2&cabinclass=economy&childrenv2=&inboundaltsenabled=false&outboundaltsenabled=false&preferdirects=false&ref=home&rtn=1';  var gygUrl = 'https://www.getyourguide.com/s/?partner_id=YGFQBEY&utm_medium=online_publisher&q=' + encodeURIComponent(dest);
  var destSlug = dest.toLowerCase().replace(/\s+/g, '-').replace(/[æ]/g,'ae').replace(/[ø]/g,'oe').replace(/[å]/g,'aa');
 var tuiUrl = 'https://www.tui.dk/rejse/spanien/costa-del-sol/' + destSlug + '/';
 var spiesUrl = 'https://www.spies.dk/find-rejse#destination=' + encodeURIComponent(dest);
@@ -433,8 +432,7 @@ var hotelSearch = h.link || 'https://pin.sembo.dk/t/t?a=1970763852&as=2081497487
   container.appendChild(fl);
   (data.flights || []).forEach(function(f, i) {
     var card = document.createElement('div'); card.className = 'flight-card'; card.style.animationDelay = (i * 0.1) + 's';
-    card.innerHTML = '<div class="flight-row"><div style="text-align:center"><div class="flight-code">' + f.from + '</div><div class="flight-city">' + f.fromCity + '</div></div><div class="flight-mid"><div class="flight-line"><div class="flight-dot"></div><div class="flight-dash"></div><span style="font-size:0.8rem">✈</span><div class="flight-dash"></div><div class="flight-dot"></div></div><div class="flight-dur">' + f.duration + '</div></div><div style="text-align:center"><div class="flight-code">' + f.to + '</div><div class="flight-city">' + f.toCity + '</div></div></div><div class="flight-foot"><div class="flight-airline">' + f.airline + '</div><div class="flight-price">' + f.price + '</div><a class="flight-btn" href="' + skyUrl + '" target="_blank" rel="noopener">Book fly →</a></div>';
-    container.appendChild(card);
+card.innerHTML = '<a href="https://go.adt212.net/t/t?a=1927268633&as=2081497487&t=2&tk=1" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block"><div class="flight-row"><div style="text-align:center"><div class="flight-code">' + f.from + '</div><div class="flight-city">' + f.fromCity + '</div></div><div class="flight-mid"><div class="flight-line"><div class="flight-dot"></div><div class="flight-dash"></div><span style="font-size:0.8rem">✈</span><div class="flight-dash"></div><div class="flight-dot"></div></div><div class="flight-dur">' + f.duration + '</div></div><div style="text-align:center"><div class="flight-code">' + f.to + '</div><div class="flight-city">' + f.toCity + '</div></div></div><div class="flight-foot"><div class="flight-airline">' + f.airline + '</div><div class="flight-price">' + f.price + '</div><div class="flight-btn">Book fly →</div></div></a>';    container.appendChild(card);
   });
 
   // OPLEVELSER
