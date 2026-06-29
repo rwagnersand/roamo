@@ -486,7 +486,7 @@ async function send() {
 
       var allText = chatHistory.filter(function(m) { return m.role === 'user'; }).map(function(m) { return m.content; }).join(' ');
       var destMatch = allText.match(/\b(Malaga|Kreta|Mallorca|Barcelona|Paris|Rom|London|Amsterdam|Lissabon|Tenerife|Gran Canaria|Ibiza|Kroatien|Thailand|Bali|Dubai|New York|Tokyo|Prag|Wien|Budapest|Berlin|Marokko|Tyrkiet|Antalya|Istanbul|Malta|Cypern|Sicilien|Island|Santorini|Alicante|Madrid|Athen|Rhodos|Korfu|Dubrovnik|Phuket|Singapore|Sydney|Cape Town|Cancun|Miami|Los Angeles|Chicago|San Francisco|Toronto|Lisboa|Lanzarote|Fuerteventura|Mykonos|Split|Zadar|Palma)\b/i);
-var foundDest = text;
+var foundDest = text
       try {
 var r2 = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: [{ role: 'user', content: foundDest }], mode: 'recommend', destination: foundDest }) });
         var d2 = await r2.json();
