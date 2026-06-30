@@ -392,6 +392,7 @@ function starsStr(n) {
 
 function buildRecs(data) {
   var dest = data.destination;
+  var gygUrl = 'https://www.getyourguide.com/s/?q=' + encodeURIComponent(dest) + '&partner_id=YGFQBEY';
   var iata = (data.iataCode || dest.substring(0, 3)).toUpperCase();
  var destSlug = dest.toLowerCase().replace(/\s+/g, '-').replace(/[æ]/g,'ae').replace(/[ø]/g,'oe').replace(/[å]/g,'aa');
 var tuiUrl = 'https://www.tui.dk/rejse/spanien/costa-del-sol/' + destSlug + '/';
