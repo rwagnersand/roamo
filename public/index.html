@@ -503,10 +503,11 @@ var r2 = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': '
       }
       msgsEl.scrollTop = msgsEl.scrollHeight;
     }
-  } catch(e) {
-    bbl.textContent = 'Noget gik galt — prøv igen.';
-    bbl.classList.remove('typing');
-  }
+  } catch(e2) {
+  console.error('ERROR e2:', e2);
+  rb.textContent = 'Kunne ikke hente anbefalinger — prøv igen.';
+  rb.classList.remove('typing');
+}
   sndBtn.disabled = false;
   msgsEl.scrollTop = msgsEl.scrollHeight;
 }
