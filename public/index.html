@@ -472,6 +472,7 @@ async function send() {
 var reply = d1.reply || '';
 console.log('REPLY:', reply);
     var hasSignal = reply.includes('[KLAR_TIL_ANBEFALING]');
+    console.log('hasSignal:', hasSignal, 'length:', reply.length);
     var cleanReply = reply.replace('[KLAR_TIL_ANBEFALING]', '').trim();
     bbl.innerHTML = formatReply(cleanReply);
     bbl.classList.remove('typing');
