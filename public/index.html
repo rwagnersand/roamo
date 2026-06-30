@@ -490,7 +490,7 @@ console.log('REPLY:', reply);
 var foundDest = text;
       try {
 var r2 = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: [{ role: 'user', content: foundDest }], mode: 'recommend', destination: foundDest }) });
-        var d2 = await r2.json();
+        var d2 = await r2.json();console.log('d2:', d2);
         if (d2.type === 'recommendations' && d2.data) {
           rb.remove();
           rw.appendChild(buildRecs(d2.data));
