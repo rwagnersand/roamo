@@ -423,8 +423,7 @@ pkg.innerHTML = '<div style="display:flex;justify-content:space-between;align-it
   container.appendChild(hl);
   (data.hotels || []).forEach(function(h, i) {
     var card = document.createElement('div'); card.className = 'hotel-card'; card.style.animationDelay = (i * 0.08) + 's';
-var hotelSearch = h.link || 'https://pin.sembo.dk/t/t?a=1970763852&as=2081497487&t=2&tk=1';    card.innerHTML = '<a href="' + hotelSearch + '" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block"><div class="hotel-inner"><div class="hotel-img">🏨</div><div class="hotel-body"><div><div class="hotel-top"><div class="hotel-name">' + h.name + '</div><div class="hotel-stars">' + starsStr(h.stars) + '</div></div><div class="hotel-desc">' + h.desc + (h.area ? ' · ' + h.area : '') + '</div></div><div class="hotel-footer"><div class="hotel-price">' + h.price + '</div><div class="hotel-btn">Se hotel →</div></div></div></div></a>';
-    container.appendChild(card);
+var hotelSearch = 'https://pin.sembo.dk/t/t?a=1970763852&as=2081497487&t=2&tk=1';    card.innerHTML = '<a href="' + hotelSearch + '" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block"><div class="hotel-inner"><div class="hotel-img">🏨</div><div class="hotel-body"><div><div class="hotel-top"><div class="hotel-name">' + h.name + '</div><div class="hotel-stars">' + starsStr(h.stars) + '</div></div><div class="hotel-desc">' + h.desc + (h.area ? ' · ' + h.area : '') + '</div></div><div class="hotel-footer"><div class="hotel-price">' + h.price + '</div><div class="hotel-btn">Se hotel →</div></div></div></div></a>';    container.appendChild(card);
   });
 
   // FLY
